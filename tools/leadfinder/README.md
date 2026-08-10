@@ -75,7 +75,8 @@ Nur `overpass`:
 | Option | Wirkung |
 |---|---|
 | `--area` | Gebiet (Standard: München) |
-| `--from-file` | gespeicherte Overpass-Antwort auswerten, ohne Netz |
+| `--from-file` | gespeicherte Antwort auswerten (Overpass-JSON **oder** GeoJSON) |
+| `--turbo-link` | anklickbaren overpass-turbo-Link ausgeben |
 | `--mirror`, `--timeout`, `--user-agent` | Spiegel und HTTP-Verhalten |
 
 Nur `google`:
@@ -90,16 +91,36 @@ Nur `google`:
 
 Exit-Codes: `0` Erfolg, `1` Fehler (Bedienung, Key, Daten), `2` Netz blockiert.
 
-### Wenn Overpass gesperrt ist
+### Wenn Overpass gesperrt ist — der Browser-Umweg
 
 In abgeschotteten Containern und hinter Firmen-Proxys ist Overpass regelmäßig
-blockiert — `--self-check` sagt das mit Exit-Code 2 klar an. Umweg ohne
-eigenen Netzzugang:
+blockiert; `--self-check` sagt das mit Exit-Code 2 klar an. Der Umweg braucht
+nur einen Browser:
 
-1. `--dry-run` liefert die Abfrage.
-2. Auf <https://overpass-turbo.eu> einfügen, ausführen, als GeoJSON/JSON
-   exportieren.
-3. `--from-file antwort.json -o leads.csv` wertet sie lokal aus.
+```bash
+python3 -m leadfinder.cli --turbo-link --categories friseur,baeckerei
+```
+
+1. Ausgegebenen Link öffnen — overpass-turbo startet die Abfrage von selbst.
+2. **Export → Daten → GeoJSON** (oder „raw data directly from Overpass API").
+3. `--from-file antwort.json -o leads.csv`
+
+Beide Exportwege funktionieren: `--from-file` erkennt sowohl die
+Overpass-eigene Antwort (`elements`) als auch GeoJSON (`features`). Passt das
+Format zu keinem von beidem, gibt es eine Fehlermeldung statt einer stillen
+Null-Ausgabe.
+
+### Social-Media-Leads
+
+Ein Betrieb mit Facebook-Seite, aber ohne Webseite, ist der stärkste Lead im
+Datensatz: Sichtbarkeit ist ihm offensichtlich wichtig, eine eigene Seite hat
+er trotzdem nicht. Das Tool liest `contact:facebook`, `contact:instagram`
+(auch ohne Präfix), füllt damit die Spalte `social` und **sortiert diese Leads
+nach oben**.
+
+Der Vorbehalt bleibt: Das Signal macht den Lead *wahrscheinlicher* echt — wer
+sein Facebook einträgt, hätte die Webseite vermutlich auch eingetragen — aber
+es beweist nichts.
 
 ## Google Places einrichten
 
@@ -170,7 +191,7 @@ und lokal mit `osmium` gefiltert — das schont den öffentlichen Dienst.
 ## Tests
 
 ```bash
-python3 -m pytest tests -q     # 104 Tests, kein Netz nötig
+python3 -m pytest tests -q     # 135 Tests, kein Netz nötig
 ```
 
 Der Netzwerkzugriff steckt vollständig in `fetch.py` (Overpass) und
@@ -178,6 +199,10 @@ Der Netzwerkzugriff steckt vollständig in `fetch.py` (Overpass) und
 Telefon-Normalisierung, Adressbau bei fehlenden Feldern, Webseiten-Filter,
 Deduplizierung, CSV-Format, Backoff und Spiegelwechsel, Kachel-Mathematik,
 Budgetgrenze — und dass der API-Key in keiner Ausgabe auftaucht.
+
+Eigener Regressionsschutz für den Browser-Umweg: dieselben Daten einmal als
+Overpass-JSON und einmal als GeoJSON müssen dieselben Leads ergeben. Eine
+frühere Fassung lieferte hier 6 gegen 0, ohne Fehlermeldung.
 
 Nicht abgedeckt und ehrlich benannt: der echte Lauf gegen Overpass bzw. mit
 gültigem Google-Key. Beides braucht Netz und Zugang, die eine Testumgebung

@@ -10,8 +10,11 @@ wüssten wir sie nicht.
 from __future__ import annotations
 
 import re
+from urllib.parse import quote
 
 from .categories import Category
+
+TURBO_BASE = "https://overpass-turbo.eu/"
 
 # Tags, deren Vorhandensein "hat eine Webseite" bedeutet. `url` ist selten und
 # uneinheitlich benutzt, schließt aber zuverlässig genug aus.
@@ -63,3 +66,17 @@ def build_query(
         f"(\n{body}\n);\n"
         f"out center tags;\n"
     )
+
+
+def turbo_url(query: str, run: bool = True) -> str:
+    """Abfrage als anklickbaren overpass-turbo-Link verpacken.
+
+    Der Umweg über den Browser ist für jeden gedacht, dessen Netz Overpass
+    sperrt oder der kein Python installieren will: Link öffnen, Ergebnis
+    exportieren, Datei mit --from-file auswerten.
+
+    `safe=""` ist wichtig — Zeichen wie `/`, `[`, `]` und `;` sind Teil der
+    Abfrage und dürfen nicht als URL-Syntax durchrutschen.
+    """
+    url = f"{TURBO_BASE}?Q={quote(query, safe='')}"
+    return url + "&R" if run else url

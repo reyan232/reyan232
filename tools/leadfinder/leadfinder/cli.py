@@ -23,8 +23,9 @@ from . import categories as cats
 from . import fetch as fetch_mod
 from . import google as google_mod
 from .export import GOOGLE_ATTRIBUTION, OSM_ATTRIBUTION, write_csv
+from .ingest import UnknownFormat, normalize_payload
 from .parse import parse_elements
-from .query import build_query
+from .query import build_query, turbo_url
 
 EXIT_OK = 0
 EXIT_ERROR = 1
@@ -80,7 +81,19 @@ def build_parser() -> argparse.ArgumentParser:
     )
     overpass.add_argument(
         "--from-file",
-        help="gespeicherte Overpass-Antwort auswerten (ohne Netz)",
+        help=(
+            "gespeicherte Antwort auswerten (ohne Netz). Nimmt sowohl die "
+            "Overpass-JSON-Antwort als auch einen GeoJSON-Export aus "
+            "overpass-turbo."
+        ),
+    )
+    overpass.add_argument(
+        "--turbo-link",
+        action="store_true",
+        help=(
+            "nur den overpass-turbo-Link ausgeben: anklicken, laufen "
+            "lassen, exportieren, mit --from-file auswerten"
+        ),
     )
 
     google = parser.add_argument_group("google")
@@ -190,8 +203,14 @@ def _self_check_google(api_key: str) -> int:
 def _run_overpass(args, selected) -> tuple[int, list, object] | int:
     query = build_query(selected, area_name=args.area, timeout=args.timeout)
 
+    if args.turbo_link:
+        print(turbo_url(query))
+        return EXIT_OK
+
     if args.dry_run:
         print(query)
+        print("\nIm Browser ausführen (falls Overpass hier gesperrt ist):")
+        print(turbo_url(query))
         return EXIT_OK
 
     if args.from_file:
@@ -222,8 +241,24 @@ def _run_overpass(args, selected) -> tuple[int, list, object] | int:
             print(f"\nFehler: {exc}", file=sys.stderr)
             return EXIT_ERROR
 
+    try:
+        elements = normalize_payload(payload)
+    except UnknownFormat as exc:
+        print(f"\nFehler: {exc}", file=sys.stderr)
+        return EXIT_ERROR
+
+    if not elements:
+        # Früher endete das hier stumm mit null Leads — nicht unterscheidbar
+        # von "es gibt nichts". Jetzt wird der wahrscheinlichste Grund genannt.
+        print(
+            "\nDie Datei enthält keine Elemente. Häufigste Ursache: beim "
+            "Export in\noverpass-turbo lief die Abfrage noch nicht oder lieferte "
+            "nichts.",
+            file=sys.stderr,
+        )
+
     leads, stats = parse_elements(
-        payload.get("elements", []), require_phone=not args.no_require_phone
+        elements, require_phone=not args.no_require_phone
     )
     return leads, stats, OSM_ATTRIBUTION
 
@@ -306,6 +341,13 @@ def main(argv: list[str] | None = None) -> int:
             tags = ", ".join(f"{k}={v}" for k, v in cat.selectors)
             print(f"  {slug:<12} {cat.label:<14} {tags}")
         return EXIT_OK
+
+    if args.turbo_link and args.provider == "google":
+        print(
+            "Fehler: --turbo-link gibt es nur für --provider overpass.",
+            file=sys.stderr,
+        )
+        return EXIT_ERROR
 
     if args.self_check:
         if args.provider == "google":

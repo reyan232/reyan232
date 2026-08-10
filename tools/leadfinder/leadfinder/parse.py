@@ -16,6 +16,16 @@ from .query import WEBSITE_TAGS
 
 PHONE_TAGS = ("phone", "contact:phone", "contact:mobile", "mobile")
 
+# Ein Betrieb mit Facebook-Seite, aber ohne Webseite, ist der stärkste Lead im
+# Datensatz: Sichtbarkeit ist ihm offensichtlich wichtig, eine eigene Seite hat
+# er trotzdem nicht. OSM kennt diese Profile mit und ohne contact:-Präfix.
+SOCIAL_TAGS = (
+    "contact:facebook",
+    "facebook",
+    "contact:instagram",
+    "instagram",
+)
+
 # Trennzeichen innerhalb einer Nummer, die keine Ziffern sind.
 _PHONE_NOISE = re.compile(r"[\s\-‐-―./()\[\]]+")
 
@@ -35,6 +45,7 @@ class Lead:
     lon: float | None
     quell_link: str
     maps_link: str
+    social: str = ""
 
 
 @dataclass
@@ -46,6 +57,7 @@ class Stats:
     adresse_unvollstaendig: int = 0
     duplikate: int = 0
     mit_webseite: int = 0
+    mit_social: int = 0
     leads: int = 0
     kategorien: dict[str, int] = field(default_factory=dict)
 
@@ -65,6 +77,11 @@ class Stats:
         if self.mit_webseite:
             lines.append(
                 f"  mit Webseite (aussortiert) {self.mit_webseite}"
+            )
+        if self.mit_social:
+            lines.append(
+                f"  davon mit Social Media     {self.mit_social}"
+                "   <- heißeste Leads, stehen oben"
             )
         if self.kategorien:
             lines.append("  je Branche:")
@@ -119,6 +136,19 @@ def pick_phone(tags: dict[str, str]) -> tuple[str, bool]:
             return normalized, True
         return raw, False
     return "", True
+
+
+def social_profile(tags: dict[str, str]) -> str:
+    """Erstes gefundenes Social-Profil, sonst leer.
+
+    Reihenfolge von SOCIAL_TAGS entscheidet: contact:-Präfix zuerst, weil das
+    die vom OSM-Wiki empfohlene Schreibweise ist und häufiger gepflegt wird.
+    """
+    for tag in SOCIAL_TAGS:
+        value = tags.get(tag, "").strip()
+        if value:
+            return value
+    return ""
 
 
 def has_website(tags: dict[str, str]) -> bool:
@@ -185,6 +215,7 @@ def element_to_lead(element: dict) -> Lead | None:
             if lat is not None and lon is not None
             else ""
         ),
+        social=social_profile(tags),
     )
 
 
@@ -226,10 +257,16 @@ def parse_elements(
 
         seen.add(lead.quell_id)
         leads.append(lead)
+        if lead.social:
+            stats.mit_social += 1
         if lead.kategorie:
             stats.kategorien[lead.kategorie] = (
                 stats.kategorien.get(lead.kategorie, 0) + 1
             )
 
+    # Social-Leads nach oben: wer sein Facebook pflegt, aber keine Webseite
+    # hat, ist der naheliegendste Anruf. Name als zweites Kriterium hält die
+    # Reihenfolge stabil und damit testbar.
+    leads.sort(key=lambda lead: (0 if lead.social else 1, lead.name.casefold()))
     stats.leads = len(leads)
     return leads, stats

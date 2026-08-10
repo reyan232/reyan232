@@ -321,3 +321,87 @@ def test_google_self_check_ohne_key_meldet_erreichbar(capsys, monkeypatch):
     assert main(["--provider", "google", "--self-check"]) == EXIT_OK
     out = capsys.readouterr().out
     assert "Endpunkt erreichbar" in out
+
+
+# --- Browser-Brücke ----------------------------------------------------------
+
+
+def test_turbo_link_gibt_nur_die_url_aus(capsys, monkeypatch):
+    """Zum Kopieren gedacht — alles andere würde beim Einfügen stören."""
+    monkeypatch.setattr(
+        fetch_mod.requests,
+        "post",
+        lambda *a, **kw: (_ for _ in ()).throw(AssertionError("darf nichts senden")),
+    )
+    assert main(["--turbo-link", "--categories", "friseur"]) == EXIT_OK
+
+    out = capsys.readouterr().out.strip()
+    assert out.startswith("https://overpass-turbo.eu/?Q=")
+    assert len(out.splitlines()) == 1
+
+
+def test_dry_run_haengt_den_turbo_link_an(capsys, monkeypatch):
+    monkeypatch.setattr(
+        fetch_mod.requests,
+        "post",
+        lambda *a, **kw: (_ for _ in ()).throw(AssertionError("darf nichts senden")),
+    )
+    main(["--dry-run", "--categories", "friseur"])
+    out = capsys.readouterr().out
+    assert 'nwr["shop"="hairdresser"]' in out
+    assert "overpass-turbo.eu" in out
+
+
+def test_turbo_link_gibt_es_bei_google_nicht(capsys):
+    assert main(["--provider", "google", "--turbo-link"]) == EXIT_ERROR
+    assert "nur für --provider overpass" in capsys.readouterr().err
+
+
+def test_geojson_export_ergibt_dieselbe_csv_wie_die_api_antwort(tmp_path):
+    """Der Regressionsnachweis auf CLI-Ebene: vorher 6 gegen 0."""
+    from pathlib import Path as P
+
+    fixtures = P(__file__).parent / "fixtures"
+    ergebnisse = []
+    for name in ("overpass_muenchen.json", "overpass_turbo_geojson.json"):
+        ziel = tmp_path / f"{name}.csv"
+        assert main(["--from-file", str(fixtures / name), "-o", str(ziel)]) == EXIT_OK
+        with ziel.open(encoding="utf-8-sig", newline="") as handle:
+            ergebnisse.append([r["name"] for r in csv.DictReader(handle, delimiter=";")])
+
+    assert ergebnisse[0] == ergebnisse[1]
+    assert len(ergebnisse[0]) == 6
+
+
+def test_unbekanntes_dateiformat_wird_erklaert(tmp_path, capsys):
+    """Früher: still null Leads. Das sah aus wie 'München hat nichts'."""
+    datei = tmp_path / "fremd.json"
+    datei.write_text('{"ergebnisse": [1, 2]}', encoding="utf-8")
+
+    code = main(["--from-file", str(datei), "-o", str(tmp_path / "x.csv")])
+    assert code == EXIT_ERROR
+    err = capsys.readouterr().err
+    assert "elements" in err and "features" in err
+
+
+def test_leere_datei_nennt_den_wahrscheinlichen_grund(tmp_path, capsys):
+    datei = tmp_path / "leer.json"
+    datei.write_text('{"features": []}', encoding="utf-8")
+
+    assert main(["--from-file", str(datei), "-o", str(tmp_path / "x.csv")]) == EXIT_OK
+    assert "keine Elemente" in capsys.readouterr().err
+
+
+def test_social_spalte_landet_in_der_csv(tmp_path):
+    from pathlib import Path as P
+
+    fixture = P(__file__).parent / "fixtures" / "overpass_turbo_geojson.json"
+    ziel = tmp_path / "leads.csv"
+    main(["--from-file", str(fixture), "-o", str(ziel)])
+
+    with ziel.open(encoding="utf-8-sig", newline="") as handle:
+        rows = list(csv.DictReader(handle, delimiter=";"))
+
+    assert "social" in rows[0]
+    assert rows[0]["social"]  # Social-Leads stehen oben
+    assert any("facebook" in r["social"] for r in rows)

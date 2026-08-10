@@ -57,3 +57,38 @@ def test_build_query_weist_gefaehrliche_gebietsnamen_ab(area):
 def test_build_query_erlaubt_echte_ortsnamen():
     for area in ["München", "Bad Tölz", "Garmisch-Partenkirchen", "Sankt Ottilien"]:
         assert area in build_query(resolve(["friseur"]), area_name=area)
+
+
+# --- overpass-turbo-Brücke ---------------------------------------------------
+
+
+def test_turbo_url_enthaelt_die_abfrage_unveraendert():
+    """Der Link ist der Weg zu echten Daten, wenn Overpass gesperrt ist.
+
+    Geht beim Kodieren ein Zeichen verloren, läuft die Abfrage im Browser
+    nicht — und der Nutzer sieht eine leere Karte statt einer Fehlermeldung.
+    """
+    from urllib.parse import parse_qs, urlparse
+
+    from leadfinder.query import turbo_url
+
+    query = build_query(resolve(["friseur", "baeckerei"]))
+    url = turbo_url(query)
+    assert parse_qs(urlparse(url).query)["Q"][0] == query
+
+
+def test_turbo_url_kodiert_die_sonderzeichen():
+    from leadfinder.query import turbo_url
+
+    url = turbo_url(build_query(resolve(["friseur"])))
+    # Klammern, Semikolon und Slash dürfen nicht roh in der URL stehen,
+    # sonst schneidet der Browser die Abfrage ab.
+    for raw in ("[", "]", ";", '"'):
+        assert raw not in url.split("?Q=", 1)[1]
+
+
+def test_turbo_url_startet_die_abfrage_automatisch():
+    from leadfinder.query import turbo_url
+
+    assert turbo_url(build_query(resolve(["friseur"]))).endswith("&R")
+    assert not turbo_url(build_query(resolve(["friseur"])), run=False).endswith("&R")

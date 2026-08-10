@@ -24,7 +24,10 @@
     {
       "type": "way",
       "id": 2002,
-      "center": { "lat": 48.1503, "lon": 11.5808 },
+      "center": {
+        "lat": 48.1503,
+        "lon": 11.5808
+      },
       "tags": {
         "shop": "bakery",
         "name": "Backhaus Sonnenschein",
@@ -36,8 +39,8 @@
     {
       "type": "node",
       "id": 3003,
-      "lat": 48.1200,
-      "lon": 11.5500,
+      "lat": 48.12,
+      "lon": 11.55,
       "tags": {
         "shop": "beauty",
         "addr:street": "Implerstraße",
@@ -49,8 +52,8 @@
     {
       "type": "node",
       "id": 4004,
-      "lat": 48.1400,
-      "lon": 11.5600,
+      "lat": 48.14,
+      "lon": 11.56,
       "tags": {
         "shop": "hairdresser",
         "name": "Haarstudio Ohne Telefon",
@@ -63,8 +66,8 @@
     {
       "type": "node",
       "id": 5005,
-      "lat": 48.1650,
-      "lon": 11.6000,
+      "lat": 48.165,
+      "lon": 11.6,
       "tags": {
         "craft": "electrician",
         "name": "Elektro Brunner",
@@ -72,14 +75,15 @@
         "addr:housenumber": "144",
         "addr:postcode": "80797",
         "addr:city": "München",
-        "phone": "004989123450"
+        "phone": "004989123450",
+        "contact:facebook": "https://facebook.com/elektro.brunner"
       }
     },
     {
       "type": "node",
       "id": 6006,
-      "lat": 48.1100,
-      "lon": 11.5300,
+      "lat": 48.11,
+      "lon": 11.53,
       "tags": {
         "shop": "bakery",
         "name": "Backstube Krumme Nummer",
@@ -108,8 +112,8 @@
     {
       "type": "node",
       "id": 7007,
-      "lat": 48.1450,
-      "lon": 11.5700,
+      "lat": 48.145,
+      "lon": 11.57,
       "tags": {
         "shop": "hairdresser",
         "name": "Coiffeur MitWebseite",
@@ -124,8 +128,8 @@
     {
       "type": "node",
       "id": 8008,
-      "lat": 48.1320,
-      "lon": 11.5900,
+      "lat": 48.132,
+      "lon": 11.59,
       "tags": {
         "amenity": "restaurant",
         "name": "Gaststätte Zwei Nummern",
@@ -133,13 +137,17 @@
         "addr:housenumber": "22",
         "addr:postcode": "81669",
         "addr:city": "München",
-        "phone": "089/111 222; 089/333 444"
+        "phone": "089/111 222; 089/333 444",
+        "instagram": "gaststaette_zwei_nummern"
       }
     },
     {
       "type": "relation",
       "id": 9009,
-      "center": { "lat": 48.1390, "lon": 11.5620 },
+      "center": {
+        "lat": 48.139,
+        "lon": 11.562
+      },
       "tags": {
         "amenity": "cafe",
         "name": "Café Im Hof",

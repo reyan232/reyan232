@@ -216,6 +216,9 @@ def place_to_lead(place: dict, kategorie: str) -> Lead | None:
             if lat is not None and lon is not None
             else ""
         ),
+        # Places führt keine Social-Profile — die Spalte bleibt beim
+        # Google-Weg leer, statt etwas vorzutäuschen.
+        social="",
     )
 
 

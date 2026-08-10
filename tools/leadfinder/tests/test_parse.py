@@ -157,3 +157,49 @@ def test_stats_zeilen_sind_lesbar(elements):
     text = "\n".join(stats.as_lines())
     assert "brauchbare Leads" in text
     assert "je Branche" in text
+
+
+# --- Social Media ------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "tags,expected",
+    [
+        ({"contact:facebook": "https://fb.com/x"}, "https://fb.com/x"),
+        ({"facebook": "https://fb.com/y"}, "https://fb.com/y"),
+        ({"contact:instagram": "@laden"}, "@laden"),
+        ({"instagram": "@laden2"}, "@laden2"),
+        # contact:-Präfix hat Vorrang, weil das die empfohlene Schreibweise ist
+        ({"contact:facebook": "A", "instagram": "B"}, "A"),
+        ({"contact:facebook": "   "}, ""),
+        ({"name": "X"}, ""),
+    ],
+)
+def test_social_profile(tags, expected):
+    from leadfinder.parse import social_profile
+
+    assert social_profile(tags) == expected
+
+
+def test_social_leads_stehen_oben(elements):
+    """Wer sein Facebook pflegt, aber keine Webseite hat, ist der
+    naheliegendste Anruf — der gehört nicht ans Listenende."""
+    leads, stats = parse_elements(elements)
+
+    assert stats.mit_social == 2
+    assert all(lead.social for lead in leads[:2])
+    assert not any(lead.social for lead in leads[2:])
+
+
+def test_sortierung_ist_deterministisch(elements):
+    zuerst = [lead.name for lead in parse_elements(elements)[0]]
+    nochmal = [lead.name for lead in parse_elements(elements)[0]]
+    assert zuerst == nochmal
+    # innerhalb der Gruppen alphabetisch
+    assert zuerst[:2] == sorted(zuerst[:2], key=str.casefold)
+    assert zuerst[2:] == sorted(zuerst[2:], key=str.casefold)
+
+
+def test_kennzahl_social_wird_ausgewiesen(elements):
+    _, stats = parse_elements(elements)
+    assert "Social Media" in "\n".join(stats.as_lines())
