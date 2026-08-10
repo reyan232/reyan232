@@ -1,0 +1,84 @@
+{
+  "page1": {
+    "places": [
+      {
+        "id": "ChIJAAAAAAAAAAARwagner00001",
+        "formattedAddress": "Sendlinger Str. 12, 80331 München, Deutschland",
+        "addressComponents": [
+          { "longText": "12", "shortText": "12", "types": ["street_number"], "languageCode": "de" },
+          { "longText": "Sendlinger Straße", "shortText": "Sendlinger Str.", "types": ["route"], "languageCode": "de" },
+          { "longText": "München", "shortText": "München", "types": ["locality", "political"], "languageCode": "de" },
+          { "longText": "80331", "shortText": "80331", "types": ["postal_code"], "languageCode": "de-DE" }
+        ],
+        "location": { "latitude": 48.1371, "longitude": 11.5754 },
+        "displayName": { "text": "Friseursalon Wagner", "languageCode": "de" },
+        "nationalPhoneNumber": "089 12345678"
+      },
+      {
+        "id": "ChIJBBBBBBBBBBBRwebsite0002",
+        "formattedAddress": "Türkenstr. 40, 80799 München, Deutschland",
+        "addressComponents": [
+          { "longText": "40", "types": ["street_number"] },
+          { "longText": "Türkenstraße", "types": ["route"] },
+          { "longText": "München", "types": ["locality", "political"] },
+          { "longText": "80799", "types": ["postal_code"] }
+        ],
+        "location": { "latitude": 48.1512, "longitude": 11.5762 },
+        "displayName": { "text": "Coiffeur MitWebseite", "languageCode": "de" },
+        "nationalPhoneNumber": "089 2223333",
+        "websiteUri": "https://coiffeur-beispiel.de/"
+      },
+      {
+        "id": "ChIJCCCCCCCCCCCRnophone0003",
+        "formattedAddress": "Baaderstr. 3, 80469 München, Deutschland",
+        "addressComponents": [
+          { "longText": "3", "types": ["street_number"] },
+          { "longText": "Baaderstraße", "types": ["route"] },
+          { "longText": "München", "types": ["locality", "political"] },
+          { "longText": "80469", "types": ["postal_code"] }
+        ],
+        "location": { "latitude": 48.1289, "longitude": 11.5766 },
+        "displayName": { "text": "Haarstudio Ohne Telefon", "languageCode": "de" }
+      },
+      {
+        "id": "ChIJDDDDDDDDDDDRnoname00004",
+        "formattedAddress": "Implerstr. 5, 81371 München, Deutschland",
+        "addressComponents": [
+          { "longText": "5", "types": ["street_number"] },
+          { "longText": "Implerstraße", "types": ["route"] }
+        ],
+        "location": { "latitude": 48.1201, "longitude": 11.5453 },
+        "nationalPhoneNumber": "089 5550000"
+      }
+    ],
+    "nextPageToken": "TOKEN-SEITE-2"
+  },
+  "page2": {
+    "places": [
+      {
+        "id": "ChIJEEEEEEEEEEERteiladdr005",
+        "formattedAddress": "Leopoldstraße, München, Deutschland",
+        "addressComponents": [
+          { "longText": "Leopoldstraße", "types": ["route"] },
+          { "longText": "München", "types": ["locality", "political"] }
+        ],
+        "location": { "latitude": 48.1601, "longitude": 11.5871 },
+        "displayName": { "text": "Backhaus Sonnenschein", "languageCode": "de" },
+        "nationalPhoneNumber": "089 9998888"
+      },
+      {
+        "id": "ChIJAAAAAAAAAAARwagner00001",
+        "formattedAddress": "Sendlinger Str. 12, 80331 München, Deutschland",
+        "addressComponents": [
+          { "longText": "12", "types": ["street_number"] },
+          { "longText": "Sendlinger Straße", "types": ["route"] },
+          { "longText": "München", "types": ["locality", "political"] },
+          { "longText": "80331", "types": ["postal_code"] }
+        ],
+        "location": { "latitude": 48.1371, "longitude": 11.5754 },
+        "displayName": { "text": "Friseursalon Wagner", "languageCode": "de" },
+        "nationalPhoneNumber": "089 12345678"
+      }
+    ]
+  }
+}

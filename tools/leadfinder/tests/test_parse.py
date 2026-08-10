@@ -100,8 +100,8 @@ def test_element_to_lead_way_nutzt_center_koordinaten():
         }
     )
     assert lead.lat == 48.15 and lead.lon == 11.58
-    assert lead.osm_id == "way/42"
-    assert lead.osm_link == "https://www.openstreetmap.org/way/42"
+    assert lead.quell_id == "way/42"
+    assert lead.quell_link == "https://www.openstreetmap.org/way/42"
     assert "48.15,11.58" in lead.maps_link
 
 
@@ -125,7 +125,7 @@ def test_parse_elements_kennzahlen(elements):
 
 def test_parse_elements_dedupliziert_ueber_osm_id(elements):
     leads, _ = parse_elements(elements)
-    ids = [lead.osm_id for lead in leads]
+    ids = [lead.quell_id for lead in leads]
     assert len(ids) == len(set(ids))
     assert ids.count("node/1001") == 1
 

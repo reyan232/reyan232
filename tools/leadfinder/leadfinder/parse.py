@@ -30,10 +30,10 @@ class Lead:
     adresse: str
     telefon: str
     kategorie: str
-    osm_id: str
+    quell_id: str
     lat: float | None
     lon: float | None
-    osm_link: str
+    quell_link: str
     maps_link: str
 
 
@@ -54,18 +54,17 @@ class Stats:
             f"{100 * self.leads / self.elemente:.0f}%" if self.elemente else "–"
         )
         lines = [
-            f"  OSM-Elemente gesamt        {self.elemente}",
+            f"  Treffer gesamt             {self.elemente}",
             f"  ohne Namen (übersprungen)  {self.ohne_name}",
             f"  ohne Telefonnummer         {self.ohne_telefon}",
             f"  Telefon nicht normierbar   {self.telefon_unparsbar}",
             f"  Adresse unvollständig      {self.adresse_unvollstaendig}",
             f"  Duplikate entfernt         {self.duplikate}",
-            f"  brauchbare Leads           {self.leads}  ({quote} der Elemente)",
+            f"  brauchbare Leads           {self.leads}  ({quote} der Treffer)",
         ]
         if self.mit_webseite:
             lines.append(
                 f"  mit Webseite (aussortiert) {self.mit_webseite}"
-                "   (Overpass filtert sie sonst schon serverseitig)"
             )
         if self.kategorien:
             lines.append("  je Branche:")
@@ -166,7 +165,7 @@ def element_to_lead(element: dict) -> Lead | None:
     address, _ = build_address(tags)
     phone, _ = pick_phone(tags)
     lat, lon = _coords(element)
-    osm_id = f"{element.get('type')}/{element.get('id')}"
+    quell_id = f"{element.get('type')}/{element.get('id')}"
 
     return Lead(
         name=name,
@@ -177,10 +176,10 @@ def element_to_lead(element: dict) -> Lead | None:
         adresse=address,
         telefon=phone,
         kategorie=category.label if category else "",
-        osm_id=osm_id,
+        quell_id=quell_id,
         lat=lat,
         lon=lon,
-        osm_link=f"https://www.openstreetmap.org/{osm_id}",
+        quell_link=f"https://www.openstreetmap.org/{quell_id}",
         maps_link=(
             f"https://www.google.com/maps/search/?api=1&query={lat},{lon}"
             if lat is not None and lon is not None
@@ -209,7 +208,7 @@ def parse_elements(
             stats.ohne_name += 1
             continue
 
-        if lead.osm_id in seen:
+        if lead.quell_id in seen:
             stats.duplikate += 1
             continue
 
@@ -225,7 +224,7 @@ def parse_elements(
         if not complete:
             stats.adresse_unvollstaendig += 1
 
-        seen.add(lead.osm_id)
+        seen.add(lead.quell_id)
         leads.append(lead)
         if lead.kategorie:
             stats.kategorien[lead.kategorie] = (

@@ -1,9 +1,14 @@
 # Leadfinder
 
-Findet lokale Betriebe in München, für die in OpenStreetMap **keine Webseite**
-eingetragen ist, und schreibt Name, Adresse und Telefonnummer als CSV.
+Findet lokale Betriebe in München, für die **keine Webseite** hinterlegt ist,
+und schreibt Name, Adresse und Telefonnummer als CSV.
 
-Datenquelle ist die Overpass API — kostenlos, ohne API-Key, ohne Abrechnung.
+Zwei Datenquellen zur Wahl:
+
+| Provider | Kosten | Abdeckung | Haken |
+|---|---|---|---|
+| `overpass` (Standard) | gratis, ohne Key | lückenhaft, viele ohne Telefon | in vielen Netzen gesperrt |
+| `google` | kostenpflichtig, Key nötig | deutlich vollständiger | Speicherbeschränkung laut ToS |
 
 ## Schnellstart
 
@@ -14,7 +19,15 @@ python3 -m leadfinder.cli --self-check                    # geht das Netz?
 python3 -m leadfinder.cli --list-categories               # welche Branchen?
 python3 -m leadfinder.cli --dry-run --categories friseur  # Abfrage ansehen
 
+# OSM (gratis)
 python3 -m leadfinder.cli --categories friseur,baeckerei --limit 100 -o leads.csv
+
+# Google (kostenpflichtig)
+export GOOGLE_MAPS_API_KEY="…"
+python3 -m leadfinder.cli --provider google --self-check
+python3 -m leadfinder.cli --provider google --dry-run --categories friseur
+python3 -m leadfinder.cli --provider google --categories friseur \
+    --grid 3 --max-requests-month 50 -o leads.csv
 ```
 
 Einzige Abhängigkeit: `requests`. Getestet mit Python 3.11.
@@ -29,13 +42,13 @@ eigene Prüfung, keine belegte Menge.
 Deshalb gibt jeder Lauf Kennzahlen aus, statt nur Zeilen zu zählen:
 
 ```
-  OSM-Elemente gesamt        10
+  Treffer gesamt             10
   ohne Namen (übersprungen)  1
   ohne Telefonnummer         1
   Telefon nicht normierbar   1
   Adresse unvollständig      1
   Duplikate entfernt         1
-  brauchbare Leads           6  (60% der Elemente)
+  brauchbare Leads           6  (60% der Treffer)
 ```
 
 Die Quote „ohne Telefonnummer" entscheidet, ob sich OSM für deine Branche
@@ -44,19 +57,38 @@ mehr — mit Key, Abrechnung und ToS-Einschränkungen beim Speichern.
 
 ## Optionen
 
+Für beide Provider:
+
 | Option | Wirkung |
 |---|---|
+| `--provider` | `overpass` (Standard) oder `google` |
 | `--categories a,b` | Branchen (Standard: friseur,baeckerei,kosmetik) |
-| `--area` | Gebiet (Standard: München) |
 | `--limit N` | höchstens N Leads in der CSV |
 | `-o DATEI` | Zieldatei (Standard: leads.csv) |
 | `--no-require-phone` | auch Betriebe ohne Telefonnummer aufnehmen |
 | `--delimiter` | CSV-Trenner (Standard: `;` für deutsches Excel) |
-| `--from-file` | gespeicherte Overpass-Antwort auswerten, ohne Netz |
-| `--dry-run` | Abfrage zeigen, nichts senden |
-| `--self-check` | Erreichbarkeit der Spiegel prüfen |
+| `--dry-run` | zeigen, was passieren würde, nichts senden |
+| `--self-check` | Erreichbarkeit prüfen |
 
-Exit-Codes: `0` Erfolg, `1` Fehler, `2` Netz blockiert.
+Nur `overpass`:
+
+| Option | Wirkung |
+|---|---|
+| `--area` | Gebiet (Standard: München) |
+| `--from-file` | gespeicherte Overpass-Antwort auswerten, ohne Netz |
+| `--mirror`, `--timeout`, `--user-agent` | Spiegel und HTTP-Verhalten |
+
+Nur `google`:
+
+| Option | Wirkung |
+|---|---|
+| `--grid N` | Stadtgebiet in N×N Kacheln (Standard: 3) — **quadratischer Kostenhebel** |
+| `--max-pages` | Seiten je Kachel, max. 3 (Standard: 1) |
+| `--max-requests-month` | harte Monatsgrenze (Standard: 50) |
+| `--budget-file` | Datei für den Abfragezähler |
+| `--api-key-env` | Name der Key-Variablen (Standard: `GOOGLE_MAPS_API_KEY`) |
+
+Exit-Codes: `0` Erfolg, `1` Fehler (Bedienung, Key, Daten), `2` Netz blockiert.
 
 ### Wenn Overpass gesperrt ist
 
@@ -68,6 +100,54 @@ eigenen Netzzugang:
 2. Auf <https://overpass-turbo.eu> einfügen, ausführen, als GeoJSON/JSON
    exportieren.
 3. `--from-file antwort.json -o leads.csv` wertet sie lokal aus.
+
+## Google Places einrichten
+
+1. In der [Google Cloud Console](https://console.cloud.google.com/) ein Projekt
+   anlegen und **Abrechnung aktivieren** — ohne geht gar nichts.
+2. Unter „APIs & Dienste" die **Places API (New)** aktivieren. Achtung: die
+   alte „Places API" ist etwas anderes und reicht hier nicht.
+3. Einen API-Key erstellen und **einschränken**: nur Places API (New), und
+   wenn möglich auf deine IP. Ein unbeschränkter Key ist bei einem Leak eine
+   offene Rechnung.
+4. Key setzen und prüfen:
+
+```bash
+export GOOGLE_MAPS_API_KEY="…"
+python3 -m leadfinder.cli --provider google --self-check
+```
+
+Der Key wird **nur** aus der Umgebungsvariablen gelesen, nie als Argument
+entgegengenommen — Kommandozeilen sind über `ps` für andere Nutzer sichtbar.
+Er landet nicht in Logs, nicht in Fehlermeldungen und nicht in der CSV; ein
+Test prüft das.
+
+### Kosten im Griff behalten
+
+Google rechnet pro Abfrage ab. Die Abfragezahl ist `Branchen × Kacheln ×
+Seiten` und wächst mit `--grid` **quadratisch** — von `--grid 3` auf `--grid 6`
+sind es viermal so viele Abfragen, nicht doppelt so viele.
+
+```bash
+python3 -m leadfinder.cli --provider google --dry-run --categories friseur --grid 3
+# -> Mindestens 9 Abfragen
+```
+
+`--max-requests-month` ist eine harte Bremse: das Tool zählt jede Abfrage in
+`~/.leadfinder/budget.json` mit und bricht an der Grenze ab — die bis dahin
+gefundenen Leads werden trotzdem geschrieben. Der Zähler überlebt Abstürze,
+damit nichts doppelt bezahlt wird.
+
+**Was das Tool nicht tut:** Googles Freikontingent auswerten. Diese Regeln
+ändern sich, und eine geratene Grenze wäre schlechter als keine. Der Zähler
+zählt Abfragen; welche davon frei sind, steht in deiner Cloud-Konsole.
+
+### Abdeckung
+
+`searchText` liefert höchstens 20 Treffer je Seite und 60 je Abfrage. Ganz
+München in einem Aufruf gibt es deshalb nicht — das Stadtgebiet wird in
+`--grid N` × N Kacheln zerlegt und je Kachel gesucht, dedupliziert über die
+`place_id`. Ein feineres Raster findet mehr, kostet aber quadratisch mehr.
 
 ### Branchen erweitern
 
@@ -90,21 +170,33 @@ und lokal mit `osmium` gefiltert — das schont den öffentlichen Dienst.
 ## Tests
 
 ```bash
-python3 -m pytest tests -q     # 70 Tests, kein Netz nötig
+python3 -m pytest tests -q     # 104 Tests, kein Netz nötig
 ```
 
-Der Netzwerkzugriff steckt vollständig in `fetch.py` und ist in den Tests
-gestubbt. Geprüft werden Telefon-Normalisierung, Adressbau bei fehlenden Tags,
-Webseiten-Filter, Deduplizierung, CSV-Format sowie Backoff- und
-Spiegelwechsel-Verhalten.
+Der Netzwerkzugriff steckt vollständig in `fetch.py` (Overpass) und
+`google.py` und ist in den Tests gestubbt. Geprüft werden unter anderem
+Telefon-Normalisierung, Adressbau bei fehlenden Feldern, Webseiten-Filter,
+Deduplizierung, CSV-Format, Backoff und Spiegelwechsel, Kachel-Mathematik,
+Budgetgrenze — und dass der API-Key in keiner Ausgabe auftaucht.
+
+Nicht abgedeckt und ehrlich benannt: der echte Lauf gegen Overpass bzw. mit
+gültigem Google-Key. Beides braucht Netz und Zugang, die eine Testumgebung
+nicht hat.
 
 ## Rechtliches
 
-**Lizenz der Daten.** OpenStreetMap steht unter der
+**OpenStreetMap.** Steht unter der
 [ODbL](https://opendatacommons.org/licenses/odbl/). Bei Weitergabe oder
 Veröffentlichung ist „© OpenStreetMap-Mitwirkende" anzugeben. Das Tool schreibt
 die Angabe in jede CSV-Zeile (Spalte `quelle`) und legt eine
 `ATTRIBUTION.txt` daneben.
+
+**Google Places.** Die Google-Maps-Platform-Bedingungen beschränken das
+Zwischenspeichern von Places-Inhalten (Richtwert 30 Tage) und untersagen den
+Aufbau dauerhafter eigener Datenbanken; dauerhaft gespeichert werden darf die
+`place_id`. Eine Lead-CSV ist genau so ein Zwischenspeicher — sie ist zum
+Abarbeiten gedacht, nicht zum Sammeln. Nach der Kampagne löschen und bei
+Bedarf neu ziehen.
 
 **Verwendung der Liste.** Das betrifft nicht die Recherche, sondern den
 Erstkontakt:
