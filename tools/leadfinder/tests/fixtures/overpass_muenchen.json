@@ -1,0 +1,154 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62",
+  "osm3s": {
+    "timestamp_osm_base": "2026-08-10T06:00:00Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+    {
+      "type": "node",
+      "id": 1001,
+      "lat": 48.1371,
+      "lon": 11.5754,
+      "tags": {
+        "shop": "hairdresser",
+        "name": "Friseursalon Wagner",
+        "addr:street": "Sendlinger Straße",
+        "addr:housenumber": "12",
+        "addr:postcode": "80331",
+        "addr:city": "München",
+        "phone": "089/123 456 78"
+      }
+    },
+    {
+      "type": "way",
+      "id": 2002,
+      "center": { "lat": 48.1503, "lon": 11.5808 },
+      "tags": {
+        "shop": "bakery",
+        "name": "Backhaus Sonnenschein",
+        "addr:street": "Leopoldstraße",
+        "addr:city": "München",
+        "contact:phone": "+49 89 99 98 88"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3003,
+      "lat": 48.1200,
+      "lon": 11.5500,
+      "tags": {
+        "shop": "beauty",
+        "addr:street": "Implerstraße",
+        "addr:housenumber": "5",
+        "addr:postcode": "81371",
+        "phone": "089/555 000"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4004,
+      "lat": 48.1400,
+      "lon": 11.5600,
+      "tags": {
+        "shop": "hairdresser",
+        "name": "Haarstudio Ohne Telefon",
+        "addr:street": "Baaderstraße",
+        "addr:housenumber": "3",
+        "addr:postcode": "80469",
+        "addr:city": "München"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5005,
+      "lat": 48.1650,
+      "lon": 11.6000,
+      "tags": {
+        "craft": "electrician",
+        "name": "Elektro Brunner",
+        "addr:street": "Schleißheimer Straße",
+        "addr:housenumber": "144",
+        "addr:postcode": "80797",
+        "addr:city": "München",
+        "phone": "004989123450"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6006,
+      "lat": 48.1100,
+      "lon": 11.5300,
+      "tags": {
+        "shop": "bakery",
+        "name": "Backstube Krumme Nummer",
+        "addr:street": "Passauerstraße",
+        "addr:housenumber": "9",
+        "addr:postcode": "81369",
+        "addr:city": "München",
+        "phone": "12345"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1001,
+      "lat": 48.1371,
+      "lon": 11.5754,
+      "tags": {
+        "shop": "hairdresser",
+        "name": "Friseursalon Wagner",
+        "addr:street": "Sendlinger Straße",
+        "addr:housenumber": "12",
+        "addr:postcode": "80331",
+        "addr:city": "München",
+        "phone": "089/123 456 78"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7007,
+      "lat": 48.1450,
+      "lon": 11.5700,
+      "tags": {
+        "shop": "hairdresser",
+        "name": "Coiffeur MitWebseite",
+        "addr:street": "Türkenstraße",
+        "addr:housenumber": "40",
+        "addr:postcode": "80799",
+        "addr:city": "München",
+        "phone": "089/222 333",
+        "website": "https://coiffeur-beispiel.de"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8008,
+      "lat": 48.1320,
+      "lon": 11.5900,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "Gaststätte Zwei Nummern",
+        "addr:street": "Rosenheimer Straße",
+        "addr:housenumber": "22",
+        "addr:postcode": "81669",
+        "addr:city": "München",
+        "phone": "089/111 222; 089/333 444"
+      }
+    },
+    {
+      "type": "relation",
+      "id": 9009,
+      "center": { "lat": 48.1390, "lon": 11.5620 },
+      "tags": {
+        "amenity": "cafe",
+        "name": "Café Im Hof",
+        "addr:street": "Fraunhoferstraße",
+        "addr:housenumber": "17",
+        "addr:postcode": "80469",
+        "addr:city": "München",
+        "contact:mobile": "0176 12345678"
+      }
+    }
+  ]
+}
