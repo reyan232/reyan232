@@ -59,6 +59,34 @@ CATEGORIES: dict[str, Category] = {
             ("amenity", "fast_food"),
         ),
     ),
+    "metzger": Category("metzger", "Metzgerei", (("shop", "butcher"),)),
+    "blumen": Category("blumen", "Blumen", (("shop", "florist"),)),
+    "optiker": Category("optiker", "Optiker", (("shop", "optician"),)),
+    "schneiderei": Category(
+        "schneiderei",
+        "Schneiderei",
+        (("craft", "tailor"), ("shop", "tailor")),
+    ),
+    "autowerkstatt": Category(
+        "autowerkstatt", "Autowerkstatt", (("shop", "car_repair"),)
+    ),
+    "reinigung": Category(
+        "reinigung",
+        "Reinigung",
+        (("shop", "dry_cleaning"), ("shop", "laundry")),
+    ),
+    "schuster": Category(
+        "schuster",
+        "Schuster",
+        (("craft", "shoemaker"), ("shop", "shoe_repair")),
+    ),
+    "fahrschule": Category(
+        "fahrschule", "Fahrschule", (("amenity", "driving_school"),)
+    ),
+    "tierarzt": Category("tierarzt", "Tierarzt", (("amenity", "veterinary"),)),
+    "reisebuero": Category(
+        "reisebuero", "Reisebüro", (("shop", "travel_agency"),)
+    ),
 }
 
 DEFAULT_CATEGORIES = ("friseur", "baeckerei", "kosmetik")
@@ -90,3 +118,18 @@ def selector_index() -> dict[tuple[str, str], Category]:
         for sel in cat.selectors:
             index.setdefault(sel, cat)
     return index
+
+
+def in_gruppen(categories: list[Category], groesse: int) -> list[list[Category]]:
+    """Branchen in Blöcke teilen — für getrennte Abfragen und Links.
+
+    Nötig aus zwei Richtungen: eine URL mit allen Branchen wird zu lang, und
+    eine Overpass-Abfrage über ganz München mit dutzenden Selektoren läuft in
+    den Timeout. Kleine Blöcke lösen beides und sind gegenüber einem
+    Spendendienst auch das anständigere Verhalten.
+    """
+    if groesse < 1:
+        raise ValueError("Gruppengröße muss mindestens 1 sein")
+    return [
+        categories[i : i + groesse] for i in range(0, len(categories), groesse)
+    ]

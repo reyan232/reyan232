@@ -81,10 +81,34 @@ def build_parser() -> argparse.ArgumentParser:
     )
     overpass.add_argument(
         "--from-file",
+        action="append",
+        metavar="DATEI",
         help=(
-            "gespeicherte Antwort auswerten (ohne Netz). Nimmt sowohl die "
-            "Overpass-JSON-Antwort als auch einen GeoJSON-Export aus "
-            "overpass-turbo."
+            "gespeicherte Antwort auswerten (ohne Netz). Nimmt Overpass-JSON "
+            "und GeoJSON aus overpass-turbo. Mehrfach angebbar — die Exporte "
+            "werden zusammengeführt und über die OSM-ID dedupliziert."
+        ),
+    )
+    overpass.add_argument(
+        "--area-id",
+        type=int,
+        metavar="RELATION",
+        help=(
+            "Gebiet auf eine OSM-Relation pinnen statt über den Namen zu "
+            "suchen. Nötig, wenn im Ergebnis Orte aus dem Umland auftauchen: "
+            "gleichnamige Flächen derselben Verwaltungsstufe werden von "
+            "Overpass sonst vereinigt."
+        ),
+    )
+    overpass.add_argument(
+        "--split",
+        type=int,
+        default=4,
+        metavar="N",
+        help=(
+            "Branchen je Link/Abfrage (Standard: %(default)s). Eine Abfrage "
+            "über ganz München mit allen Branchen läuft in den Timeout und "
+            "ergibt eine überlange URL."
         ),
     )
     overpass.add_argument(
@@ -201,34 +225,67 @@ def _self_check_google(api_key: str) -> int:
 
 
 def _run_overpass(args, selected) -> tuple[int, list, object] | int:
-    query = build_query(selected, area_name=args.area, timeout=args.timeout)
+    def _query(gruppe):
+        return build_query(
+            gruppe,
+            area_name=args.area,
+            timeout=args.timeout,
+            area_id=args.area_id,
+        )
+
+    gruppen = cats.in_gruppen(selected, max(1, args.split))
 
     if args.turbo_link:
-        print(turbo_url(query))
+        _print_links(gruppen, _query)
         return EXIT_OK
 
     if args.dry_run:
-        print(query)
-        print("\nIm Browser ausführen (falls Overpass hier gesperrt ist):")
-        print(turbo_url(query))
+        for gruppe in gruppen:
+            print(_query(gruppe))
+        print("Im Browser ausführen (falls Overpass hier gesperrt ist):\n")
+        _print_links(gruppen, _query)
         return EXIT_OK
 
     if args.from_file:
-        try:
-            payload = json.loads(Path(args.from_file).read_text(encoding="utf-8"))
-        except (OSError, ValueError) as exc:
-            print(f"Fehler: {args.from_file} nicht lesbar — {exc}", file=sys.stderr)
-            return EXIT_ERROR
-        print(f"Werte {args.from_file} aus (kein Netzzugriff) …", file=sys.stderr)
-    else:
+        elements: list[dict] = []
+        for pfad in args.from_file:
+            try:
+                payload = json.loads(Path(pfad).read_text(encoding="utf-8"))
+            except (OSError, ValueError) as exc:
+                print(f"Fehler: {pfad} nicht lesbar — {exc}", file=sys.stderr)
+                return EXIT_ERROR
+            try:
+                teil = normalize_payload(payload)
+            except UnknownFormat as exc:
+                print(f"\nFehler in {pfad}: {exc}", file=sys.stderr)
+                return EXIT_ERROR
+            print(
+                f"  {pfad}: {len(teil)} Elemente", file=sys.stderr
+            )
+            elements.extend(teil)
         print(
-            f"Frage Overpass nach {len(selected)} Branche(n) in {args.area} …",
+            f"Werte {len(args.from_file)} Datei(en) aus, {len(elements)} "
+            "Elemente gesamt (kein Netzzugriff) …",
             file=sys.stderr,
         )
-        mirrors = tuple(args.mirror) if args.mirror else fetch_mod.MIRRORS
+        return _auswerten(elements, args, selected)
+
+    # Auch der Live-Abruf geht gruppenweise. Eine Abfrage über ganz München
+    # mit allen Branchen läuft in den Timeout, und mehrere kleine Abfragen
+    # sind gegenüber einem Spendendienst das anständigere Verhalten.
+    print(
+        f"Frage Overpass nach {len(selected)} Branche(n) in {args.area}, "
+        f"in {len(gruppen)} Abfrage(n) …",
+        file=sys.stderr,
+    )
+    mirrors = tuple(args.mirror) if args.mirror else fetch_mod.MIRRORS
+    elements = []
+    for nummer, gruppe in enumerate(gruppen, 1):
+        namen = ", ".join(cat.label for cat in gruppe)
+        print(f"  [{nummer}/{len(gruppen)}] {namen} …", file=sys.stderr)
         try:
             payload = fetch_mod.fetch(
-                query, mirrors=mirrors, user_agent=args.user_agent
+                _query(gruppe), mirrors=mirrors, user_agent=args.user_agent
             )
         except fetch_mod.OverpassUnreachable as exc:
             print(f"\nFehler: {exc}", file=sys.stderr)
@@ -241,17 +298,40 @@ def _run_overpass(args, selected) -> tuple[int, list, object] | int:
             print(f"\nFehler: {exc}", file=sys.stderr)
             return EXIT_ERROR
 
-    try:
-        elements = normalize_payload(payload)
-    except UnknownFormat as exc:
-        print(f"\nFehler: {exc}", file=sys.stderr)
-        return EXIT_ERROR
+        try:
+            elements.extend(normalize_payload(payload))
+        except UnknownFormat as exc:
+            print(f"\nFehler: {exc}", file=sys.stderr)
+            return EXIT_ERROR
 
+    return _auswerten(elements, args, selected)
+
+
+def _print_links(gruppen, bauen) -> None:
+    """Je Gruppe ein nummerierter Link, beschriftet mit den Branchen.
+
+    Ein Link für alles wäre über 4000 Zeichen lang und würde bei Overpass
+    ohnehin in den Timeout laufen.
+    """
+    for nummer, gruppe in enumerate(gruppen, 1):
+        namen = ", ".join(cat.label for cat in gruppe)
+        url = turbo_url(bauen(gruppe))
+        print(f"[{nummer}/{len(gruppen)}] {namen}")
+        print(url)
+        if len(url) > 4000:
+            print(
+                "  Achtung: sehr lange URL — mit kleinerem --split aufteilen, "
+                "falls der Browser sie abschneidet"
+            )
+        print()
+
+
+def _auswerten(elements, args, selected):
     if not elements:
         # Früher endete das hier stumm mit null Leads — nicht unterscheidbar
         # von "es gibt nichts". Jetzt wird der wahrscheinlichste Grund genannt.
         print(
-            "\nDie Datei enthält keine Elemente. Häufigste Ursache: beim "
+            "\nKeine Elemente in den Eingabedaten. Häufigste Ursache: beim "
             "Export in\noverpass-turbo lief die Abfrage noch nicht oder lieferte "
             "nichts.",
             file=sys.stderr,
@@ -260,6 +340,11 @@ def _run_overpass(args, selected) -> tuple[int, list, object] | int:
     leads, stats = parse_elements(
         elements, require_phone=not args.no_require_phone
     )
+    # Eine Branche ohne einen einzigen Treffer ist meistens ein falscher
+    # OSM-Tag-Wert — der wirft keinen Fehler, er liefert nur nichts.
+    stats.leere_branchen = [
+        cat.label for cat in selected if cat.label not in stats.kategorien
+    ]
     return leads, stats, OSM_ATTRIBUTION
 
 

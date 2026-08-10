@@ -75,8 +75,10 @@ Nur `overpass`:
 | Option | Wirkung |
 |---|---|
 | `--area` | Gebiet (Standard: München) |
-| `--from-file` | gespeicherte Antwort auswerten (Overpass-JSON **oder** GeoJSON) |
-| `--turbo-link` | anklickbaren overpass-turbo-Link ausgeben |
+| `--from-file` | gespeicherte Antwort auswerten (Overpass-JSON **oder** GeoJSON); mehrfach angebbar |
+| `--turbo-link` | anklickbare overpass-turbo-Links ausgeben |
+| `--split N` | Branchen je Link/Abfrage (Standard: 4) |
+| `--area-id` | Gebiet auf eine OSM-Relation pinnen statt über den Namen zu suchen |
 | `--mirror`, `--timeout`, `--user-agent` | Spiegel und HTTP-Verhalten |
 
 Nur `google`:
@@ -98,17 +100,48 @@ blockiert; `--self-check` sagt das mit Exit-Code 2 klar an. Der Umweg braucht
 nur einen Browser:
 
 ```bash
-python3 -m leadfinder.cli --turbo-link --categories friseur,baeckerei
+python3 -m leadfinder.cli --turbo-link --categories friseur,baeckerei,metzger,optiker
 ```
 
-1. Ausgegebenen Link öffnen — overpass-turbo startet die Abfrage von selbst.
+1. Jeden ausgegebenen Link öffnen — overpass-turbo startet die Abfrage selbst.
 2. **Export → Daten → GeoJSON** (oder „raw data directly from Overpass API").
-3. `--from-file antwort.json -o leads.csv`
+3. Alle Downloads auf einmal einspielen:
+
+```bash
+python3 -m leadfinder.cli --from-file a.json --from-file b.json -o leads.csv
+```
 
 Beide Exportwege funktionieren: `--from-file` erkennt sowohl die
 Overpass-eigene Antwort (`elements`) als auch GeoJSON (`features`). Passt das
 Format zu keinem von beidem, gibt es eine Fehlermeldung statt einer stillen
-Null-Ausgabe.
+Null-Ausgabe. Mehrfach angegebene Dateien werden zusammengeführt und über die
+OSM-ID dedupliziert.
+
+**Warum mehrere Links?** Alle 15 Branchen in einer Abfrage ergäben eine URL
+von über 4000 Zeichen und würden bei Overpass absehbar in den Timeout laufen.
+`--split N` (Standard: 4) teilt die Auswahl; die Aufteilung gilt auch für den
+direkten Abruf, weil viele kleine Abfragen gegenüber einem Spendendienst das
+anständigere Verhalten sind.
+
+### Wenn Orte aus dem Umland auftauchen
+
+Das Gebiet wird über `area["name"="München"]["admin_level"="6"]` bestimmt.
+Trägt eine zweite Fläche derselben Verwaltungsstufe denselben Namen — etwa ein
+gleichnamiger Landkreis —, vereinigt Overpass beide, und in der Liste stehen
+Betriebe aus dem Umland. **Ohne jede Fehlermeldung.**
+
+Erkennen lässt es sich an der Spalte `ort`: steht dort etwas anderes als
+„München", ist genau das passiert. Gegenmittel ist das Pinnen auf eine
+bestimmte OSM-Relation:
+
+```bash
+python3 -m leadfinder.cli --area-id 62428 --categories friseur -o leads.csv
+```
+
+Die passende Relations-ID findest du auf openstreetmap.org, wenn du die
+Stadtgrenze anklickst. Hier ist bewusst keine ID fest eingebaut: sie ließ sich
+in der Entwicklungsumgebung nicht verifizieren, und eine falsch geratene ID
+wäre schlimmer als der Namensweg.
 
 ### Social-Media-Leads
 
@@ -172,10 +205,13 @@ München in einem Aufruf gibt es deshalb nicht — das Stadtgebiet wird in
 
 ### Branchen erweitern
 
-`leadfinder/categories.py` bildet Branchen auf OSM-Tag-Paare ab
+`leadfinder/categories.py` bildet die 15 Branchen auf OSM-Tag-Paare ab
 (`shop=hairdresser`, `craft=electrician`, …). Neue Branche = neuer Eintrag.
+
 Tag-Werte vorher im [OSM-Wiki](https://wiki.openstreetmap.org/wiki/Map_features)
-prüfen: ein falscher Wert wirft keinen Fehler, er liefert nur nichts.
+prüfen: ein falscher Wert wirft keinen Fehler, er liefert nur nichts. Deshalb
+weist jeder Lauf Branchen ohne einen einzigen Treffer eigens aus — das ist das
+Signal für einen Tippfehler im Tag.
 
 ## Overpass fair benutzen
 
@@ -191,7 +227,7 @@ und lokal mit `osmium` gefiltert — das schont den öffentlichen Dienst.
 ## Tests
 
 ```bash
-python3 -m pytest tests -q     # 135 Tests, kein Netz nötig
+python3 -m pytest tests -q     # 156 Tests, kein Netz nötig
 ```
 
 Der Netzwerkzugriff steckt vollständig in `fetch.py` (Overpass) und

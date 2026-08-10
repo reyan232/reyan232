@@ -60,6 +60,7 @@ class Stats:
     mit_social: int = 0
     leads: int = 0
     kategorien: dict[str, int] = field(default_factory=dict)
+    leere_branchen: list[str] = field(default_factory=list)
 
     def as_lines(self) -> list[str]:
         quote = (
@@ -87,6 +88,17 @@ class Stats:
             lines.append("  je Branche:")
             for name, count in sorted(self.kategorien.items()):
                 lines.append(f"    {name:<22} {count}")
+        if self.leere_branchen:
+            # Null Treffer heißt fast immer: falscher OSM-Tag-Wert. Der wirft
+            # keinen Fehler, er liefert nur nichts — das muss auffallen.
+            lines.append(
+                "  ohne jeden Treffer:        "
+                + ", ".join(sorted(self.leere_branchen))
+            )
+            lines.append(
+                "    (meist ein falscher Tag-Wert — mit --list-categories "
+                "gegen das OSM-Wiki prüfen)"
+            )
         return lines
 
 

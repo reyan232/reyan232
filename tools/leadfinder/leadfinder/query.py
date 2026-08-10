@@ -32,22 +32,44 @@ def _check(value: str, what: str) -> str:
     return value
 
 
+# Overpass adressiert Flächen als Relations-ID plus diesem Versatz.
+AREA_OFFSET = 3600000000
+
+
 def build_query(
     categories: list[Category],
     area_name: str = "München",
     timeout: int = 180,
     admin_level: str = "6",
+    area_id: int | None = None,
 ) -> str:
     """Overpass QL für die gegebenen Branchen im gegebenen Gebiet.
 
-    Das Gebiet wird über den Namen aufgelöst statt über eine fest verdrahtete
-    Area-ID: IDs ändern sich und lassen sich ohne Netzzugang nicht prüfen, ein
-    Name ist selbsterklärend und im Zweifel schnell korrigiert.
+    Standardmäßig wird das Gebiet über den Namen aufgelöst — selbsterklärend
+    und ohne Netzzugang prüfbar. Der Haken: trägt eine zweite Fläche derselben
+    Verwaltungsstufe denselben Namen (etwa Stadt und Landkreis München), dann
+    vereinigt Overpass beide, und in den Ergebnissen stehen Betriebe aus dem
+    Umland — ohne jede Fehlermeldung.
+
+    `area_id` pinnt die Fläche deshalb auf eine bestimmte OSM-Relation und
+    macht das Ergebnis eindeutig. Hier ist keine ID fest verdrahtet: sie ließe
+    sich in dieser Umgebung nicht verifizieren, und eine falsch geratene ID
+    wäre schlimmer als der Namensweg.
     """
     if not categories:
         raise ValueError("Keine Branche ausgewählt.")
-    _check(area_name, "Gebietsname")
     _check(admin_level, "admin_level")
+
+    if area_id is not None:
+        if area_id <= 0:
+            raise ValueError("area_id muss eine positive Relations-ID sein")
+        area_line = f"area({AREA_OFFSET + int(area_id)})->.a;"
+    else:
+        _check(area_name, "Gebietsname")
+        area_line = (
+            f'area["name"="{area_name}"]["boundary"="administrative"]'
+            f'["admin_level"="{admin_level}"]->.a;'
+        )
 
     exclude = "".join(f'[!"{tag}"]' for tag in WEBSITE_TAGS)
 
@@ -61,8 +83,7 @@ def build_query(
     body = "\n".join(clauses)
     return (
         f"[out:json][timeout:{int(timeout)}];\n"
-        f'area["name"="{area_name}"]["boundary"="administrative"]'
-        f'["admin_level"="{admin_level}"]->.a;\n'
+        f"{area_line}\n"
         f"(\n{body}\n);\n"
         f"out center tags;\n"
     )

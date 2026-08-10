@@ -92,3 +92,37 @@ def test_turbo_url_startet_die_abfrage_automatisch():
 
     assert turbo_url(build_query(resolve(["friseur"]))).endswith("&R")
     assert not turbo_url(build_query(resolve(["friseur"])), run=False).endswith("&R")
+
+
+# --- Gebiet pinnen -----------------------------------------------------------
+
+
+def test_area_id_erzeugt_die_overpass_flaeche():
+    """Overpass adressiert Flächen als Relations-ID + 3600000000."""
+    from leadfinder.query import AREA_OFFSET, build_query as bq
+
+    query = bq(resolve(["friseur"]), area_id=62428)
+    assert f"area({AREA_OFFSET + 62428})->.a;" in query
+    # Der Namensweg darf dann nicht mehr auftauchen, sonst wären es zwei Flächen
+    assert '"name"=' not in query
+
+
+def test_area_id_hat_vorrang_vor_dem_namen():
+    from leadfinder.query import build_query as bq
+
+    query = bq(resolve(["friseur"]), area_name="Hamburg", area_id=62428)
+    assert "Hamburg" not in query
+
+
+def test_area_id_muss_positiv_sein():
+    from leadfinder.query import build_query as bq
+
+    for ungueltig in (0, -1):
+        with pytest.raises(ValueError, match="positive Relations-ID"):
+            bq(resolve(["friseur"]), area_id=ungueltig)
+
+
+def test_ohne_area_id_bleibt_der_namensweg():
+    query = build_query(resolve(["friseur"]))
+    assert '"name"="München"' in query
+    assert "area(36" not in query

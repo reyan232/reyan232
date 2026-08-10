@@ -326,8 +326,9 @@ def test_google_self_check_ohne_key_meldet_erreichbar(capsys, monkeypatch):
 # --- Browser-Brücke ----------------------------------------------------------
 
 
-def test_turbo_link_gibt_nur_die_url_aus(capsys, monkeypatch):
-    """Zum Kopieren gedacht — alles andere würde beim Einfügen stören."""
+def test_turbo_link_url_steht_allein_auf_ihrer_zeile(capsys, monkeypatch):
+    """Beschriftung darüber, URL darunter — sonst lässt sie sich nicht
+    sauber kopieren."""
     monkeypatch.setattr(
         fetch_mod.requests,
         "post",
@@ -335,9 +336,10 @@ def test_turbo_link_gibt_nur_die_url_aus(capsys, monkeypatch):
     )
     assert main(["--turbo-link", "--categories", "friseur"]) == EXIT_OK
 
-    out = capsys.readouterr().out.strip()
-    assert out.startswith("https://overpass-turbo.eu/?Q=")
-    assert len(out.splitlines()) == 1
+    zeilen = [z for z in capsys.readouterr().out.splitlines() if z.strip()]
+    assert zeilen[0] == "[1/1] Friseur"
+    assert zeilen[1].startswith("https://overpass-turbo.eu/?Q=")
+    assert len(zeilen) == 2
 
 
 def test_dry_run_haengt_den_turbo_link_an(capsys, monkeypatch):
@@ -389,7 +391,7 @@ def test_leere_datei_nennt_den_wahrscheinlichen_grund(tmp_path, capsys):
     datei.write_text('{"features": []}', encoding="utf-8")
 
     assert main(["--from-file", str(datei), "-o", str(tmp_path / "x.csv")]) == EXIT_OK
-    assert "keine Elemente" in capsys.readouterr().err
+    assert "Keine Elemente in den Eingabedaten" in capsys.readouterr().err
 
 
 def test_social_spalte_landet_in_der_csv(tmp_path):
@@ -405,3 +407,158 @@ def test_social_spalte_landet_in_der_csv(tmp_path):
     assert "social" in rows[0]
     assert rows[0]["social"]  # Social-Leads stehen oben
     assert any("facebook" in r["social"] for r in rows)
+
+
+# --- Aufteilung und Zusammenführung ------------------------------------------
+
+
+def _kein_netz(monkeypatch):
+    for name in ("post", "get"):
+        monkeypatch.setattr(
+            fetch_mod.requests,
+            name,
+            lambda *a, **kw: (_ for _ in ()).throw(AssertionError("darf nichts senden")),
+        )
+
+
+def test_split_erzeugt_mehrere_beschriftete_links(capsys, monkeypatch):
+    """Ein Link für alle Branchen wäre über 4000 Zeichen lang und würde bei
+    Overpass ohnehin in den Timeout laufen."""
+    _kein_netz(monkeypatch)
+    assert main([
+        "--turbo-link", "--split", "2",
+        "--categories", "friseur,baeckerei,kosmetik,metzger,blumen",
+    ]) == EXIT_OK
+
+    out = capsys.readouterr().out
+    assert out.count("https://overpass-turbo.eu/?Q=") == 3
+    assert "[1/3]" in out and "[3/3]" in out
+    assert "Metzgerei" in out
+
+
+def test_jeder_link_dekodiert_verlustfrei_zurueck(capsys, monkeypatch):
+    from urllib.parse import parse_qs, urlparse
+
+    _kein_netz(monkeypatch)
+    main(["--turbo-link", "--split", "3", "--categories",
+          "friseur,baeckerei,kosmetik,metzger,blumen,optiker"])
+
+    urls = [
+        z for z in capsys.readouterr().out.splitlines()
+        if z.startswith("https://")
+    ]
+    assert len(urls) == 2
+    for url in urls:
+        abfrage = parse_qs(urlparse(url).query)["Q"][0]
+        assert abfrage.startswith("[out:json]")
+        assert abfrage.rstrip().endswith("out center tags;")
+        assert len(url) < 4000
+
+
+def test_mehrere_dateien_werden_zusammengefuehrt(tmp_path, monkeypatch, capsys):
+    """Vier Downloads sollen eine CSV ergeben."""
+    from pathlib import Path as P
+
+    _kein_netz(monkeypatch)
+    fixtures = P(__file__).parent / "fixtures"
+    ziel = tmp_path / "leads.csv"
+
+    assert main([
+        "--from-file", str(fixtures / "overpass_muenchen.json"),
+        "--from-file", str(fixtures / "overpass_turbo_geojson.json"),
+        "-o", str(ziel),
+    ]) == EXIT_OK
+
+    with ziel.open(encoding="utf-8-sig", newline="") as handle:
+        rows = list(csv.DictReader(handle, delimiter=";"))
+
+    # Beide Dateien enthalten dieselben Betriebe: die Deduplizierung über die
+    # OSM-ID muss greifen, sonst stünde jeder Lead doppelt in der Liste.
+    assert len(rows) == 6
+    assert "2 Datei(en)" in capsys.readouterr().err
+
+
+def test_fehler_in_der_zweiten_datei_nennt_den_dateinamen(tmp_path, capsys):
+    from pathlib import Path as P
+
+    gut = P(__file__).parent / "fixtures" / "overpass_muenchen.json"
+    schlecht = tmp_path / "fremd.json"
+    schlecht.write_text('{"was_anderes": []}', encoding="utf-8")
+
+    code = main([
+        "--from-file", str(gut), "--from-file", str(schlecht),
+        "-o", str(tmp_path / "x.csv"),
+    ])
+    assert code == EXIT_ERROR
+    assert "fremd.json" in capsys.readouterr().err
+
+
+def test_branchen_ohne_treffer_werden_gemeldet(tmp_path, monkeypatch, capsys):
+    """Null Treffer heißt fast immer falscher Tag-Wert — das muss auffallen."""
+    from pathlib import Path as P
+
+    _kein_netz(monkeypatch)
+    fixture = P(__file__).parent / "fixtures" / "overpass_muenchen.json"
+    main([
+        "--from-file", str(fixture),
+        "--categories", "friseur,tierarzt,fahrschule",
+        "-o", str(tmp_path / "leads.csv"),
+    ])
+    err = capsys.readouterr().err
+    assert "ohne jeden Treffer" in err
+    assert "Tierarzt" in err and "Fahrschule" in err
+
+
+def test_area_id_landet_in_der_abfrage(capsys, monkeypatch):
+    _kein_netz(monkeypatch)
+    main(["--dry-run", "--categories", "friseur", "--area-id", "62428"])
+    assert "area(3600062428)" in capsys.readouterr().out
+
+
+def test_live_abruf_fragt_je_gruppe_einmal(tmp_path, monkeypatch, overpass_payload):
+    """Sonst gälte das Timeout-Argument nur für den Browser-Weg.
+
+    Mehrere kleine Abfragen sind gegenüber einem Spendendienst auch das
+    anständigere Verhalten.
+    """
+    abfragen = []
+
+    def fake_post(url, **kw):
+        abfragen.append(kw["data"]["data"])
+        return type(
+            "R",
+            (),
+            {"status_code": 200, "ok": True, "text": "",
+             "json": lambda self: overpass_payload},
+        )()
+
+    monkeypatch.setattr(fetch_mod.requests, "post", fake_post)
+    main([
+        "--categories", "friseur,baeckerei,kosmetik,metzger,blumen",
+        "--split", "2", "-o", str(tmp_path / "leads.csv"),
+    ])
+
+    assert len(abfragen) == 3
+    assert 'nwr["shop"="hairdresser"]' in abfragen[0]
+    assert 'nwr["shop"="florist"]' in abfragen[2]
+
+
+def test_live_abruf_dedupliziert_ueber_die_gruppen(tmp_path, monkeypatch, overpass_payload):
+    """Dieselbe Antwort dreimal darf nicht dreifache Leads ergeben."""
+    monkeypatch.setattr(
+        fetch_mod.requests,
+        "post",
+        lambda url, **kw: type(
+            "R",
+            (),
+            {"status_code": 200, "ok": True, "text": "",
+             "json": lambda self: overpass_payload},
+        )(),
+    )
+    ziel = tmp_path / "leads.csv"
+    main([
+        "--categories", "friseur,baeckerei,kosmetik,metzger,blumen",
+        "--split", "2", "-o", str(ziel),
+    ])
+    with ziel.open(encoding="utf-8-sig", newline="") as handle:
+        assert len(list(csv.DictReader(handle, delimiter=";"))) == 6
