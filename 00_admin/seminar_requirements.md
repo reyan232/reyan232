@@ -1,6 +1,6 @@
 # Auswertung der Seminarunterlagen WS 2026/27 – Nachweismatrix
 
-> Herkunft: gemischt – Starterpaket v3 (Studentenvorlage) + KI-gestützter Abgleich mit den Original-PDFs am 2026-11-07 (Claude Code). Vom Studenten am Original gegenzuprüfen.
+> Herkunft: gemischt – Starterpaket v3 (Studentenvorlage) + KI-gestützter Abgleich mit den Original-PDFs am 2026-11-07 (Claude Code; Abgleich 1: Seminar-PDFs, Abgleich 2: nachgereichte Regelwerke). Vom Studenten am Original gegenzuprüfen.
 
 **Quellenart:** vom Studenten bereitgestellte *Veranstaltungsunterlagen*, maßgeblich als **Aufgaben-/Formvorgaben**, aber **KEINE** wissenschaftliche Forschungsevidenz für inhaltliche Behauptungen über KI-Agenten. Alle „S.“-/„Folie“-Angaben = **aufgedruckte Foliennummer**, nicht PDF-Seitenposition.
 
@@ -40,25 +40,75 @@
 - **Korrigiert:** „Themenvergabe über Moodle“ steht auf Folie 10 (nicht 7–8); Folie 58 war im Starter-Katalog nicht erfasst.
 - **Themenliste – Kontext:** Nachbarthemen überschneiden sich inhaltlich (Nr. 2 Cash Management/Treasury, Nr. 3 RPA im Rechnungswesen, Nr. 5 Predictive Analytics im Controlling, Nr. 8 KI im Risikomanagement, Nr. 11 Rollen/Kompetenzen). Die Erläuterung zu Nr. 8 ist im Original abgeschnitten (Zelle endet mitten im Satz). Für Thema 9 ist daher der **agentenspezifische** Mehrwert gegenüber diesen Themen herauszuarbeiten (Hinweis, keine Entscheidung).
 
+## Nachgereichte Regelwerke – Abgleich 2 (2026-11-07)
+
+Gelesen (vollständige Textextraktion; Bewertungsformular zusätzlich als Bild gesichtet):
+
+| Kürzel | Dokument | Stand | Umfang | Herkunft |
+|---|---|---|---|---|
+| **V** | Prof. Dr. Dieses: „Vorgaben zur Anfertigung von wissenschaftlichen Arbeiten“ | 10/2017 („verbindlich für alle Anmeldungen ab WS 2017/18“) | 40 PDF-Seiten; Seitenangaben = aufgedruckte Seitenzahl (römisch II–IX, arabisch 1–31) | Upload des Studenten |
+| **B** | Prof. Dr. Dieses: Formular „Bewertung wissenschaftlicher Arbeiten“ | 2024-01-02 | 1 Seite | Upload des Studenten |
+| **L** | Fakultät BW: „Leitfaden für die Anfertigung einer Bachelorarbeit“ | Fußzeile „Stand: 04/2024“, Dateiname 25.06.2024 | 12 Seiten | haw-landshut.de (Link des Studenten) |
+| **G** | HAW Landshut: „Satzung zur Sicherung guter wissenschaftlicher Praxis und zum Umgang mit wissenschaftlichem Fehlverhalten“ (konsolidierte, nicht amtliche Fassung) | 25.11.2021 i. d. F. vom 28.11.2022 | 16 Seiten | haw-landshut.de/forschung/wir-ueber-uns |
+
+**Rangfolge (Folie 67 + V S. II):** G < L < V; V erklärt ausdrücklich: „Die Vorgaben … haben stets Vorrang vor dem Leitfaden Bachelorarbeit“ (V S. II). Die Seminarfolien WS 2026/27 sind die jüngste und für die *Studienarbeit* spezifischste Vorgabe des Professors und gehen bei Studienarbeits-Details vor (Interpretation; Folie 59 erklärt L und V für die Studienarbeit „analog“ gültig).
+
+| Anforderung | Fundstelle | explizit / Interpretation | Status | Workflow-Folge |
+|---|---|---|---|---|
+| Umfang Studienarbeit 8–10 Seiten; gezählt wird nur der laufende Text (erste bis letzte Textseite), Abbildungen/Tabellen zählen mit; Verzeichnisse/Anhang nicht | Folie 59; V S. 3–4 | explizit | geklärt | Umfang erst am echten Layout prüfen |
+| Bestandteile Studienarbeit in Reihenfolge: Titelblatt (Muster V Anh. 1, „Studienarbeit“) – Inhaltsverzeichnis – ggf. Abbildungs-/Tabellen-/Symbolverzeichnis – Abkürzungsverzeichnis – Textteil – ggf. Anhang – Literaturverzeichnis; **kein Abstract, keine eidesstattliche Erklärung** (beides „nur bei Bachelor-/Masterarbeiten“) | V S. 4 | explizit | geklärt | Checkliste ergänzt |
+| Paginierung: Titelblatt mitgezählt, ohne Zahl; vor Textteil römisch; ab Textteil fortlaufend arabisch (auch Anhang, Literaturverzeichnis) | V S. 5 | explizit | geklärt (Konflikt K5 mit L durch Rangregel aufgelöst) | – |
+| Format: DIN A4 einseitig; **nur Times New Roman**; 12 pt (auch Überschriften); Fußnoten und Quellenangaben unter Abb./Tab. 10 pt, einzeilig; Text und Verzeichnisse 1,5-zeilig; 12 pt Abstand nach jedem Absatz; Blocksatz mit Silbentrennung; Leerzeile am Ende eines Kapitel-/Abschnittstexts | V S. 5, S. 11 | explizit | geklärt | – |
+| Seitenränder: oben 2,0 cm, unten 1,5 cm, links 3,0 cm, rechts 1,5 cm | L S. 4 | explizit (V schweigt) | geklärt | – |
+| Jeder Bestandteil beginnt auf neuer Seite | L S. 4 | explizit | geklärt | – |
+| Aufbau: Einleitung (1–2 Kapitel) mit Hinführung, Zielsetzung als Forschungsfrage/Problemstellung/Hypothese, Abgrenzung, **Methodik (z. B. Literaturrecherche) und Vorgehensweise**; Hauptteil **≥ ¾ des Textes**, deskriptiv **und** analytisch, eigener Erkenntnisgewinn; Schlussteil (1 Kapitel): Zusammenfassung mit Rückbezug, Fazit und/oder Ausblick | V S. 6–7 | explizit | geklärt | Methodenteil der Arbeit muss Suchvorgehen beschreiben → `review-protocol` |
+| Gliederung: aussagekräftige Überschriften; gleichrangige Punkte gleiche Ebene; mind. zwei Unterpunkte; max. 3 Ebenen, dekadisch (1 / 1.1 / 1.1.1); unterste Ebene i. d. R. ≥ 1 Seite; Gliederung max. 1 Seite (BA-Wert) | V S. 7; L S. 5 | explizit; Übertragung der Seitenregeln auf 8–10 Seiten = Interpretation | geklärt | Bei 8–10 Seiten nur wenige Unterabschnitte realistisch |
+| Abbildungen/Tabellen: Titel oberhalb, nummeriert, im Verzeichnis; Quelle unterhalb als Kurzbeleg („Quelle: Autor (Jahr), S. x.“, „in Anlehnung an …“, „eigene Darstellung“) – Pflicht für jede Abb./Tab. | V S. 7–8; L S. 6 | explizit | geklärt | – |
+| Anhang nummeriert und betitelt; im Text muss darauf verwiesen werden; Verzeichnisse alphabetisch | V S. 8 | explizit | geklärt | – |
+| **Zitierweise: Fußnoten mit Kurzbeleg** „Nachname (Jahr), S. x.“; mehrere Autoren mit „/“; genaue Seiten, Bis-Strich als Gedankenstrich ohne Leerzeichen („S. 13–17“); **„ff.“, „ebenda“, „a. a. O.“ unzulässig**; sinngemäß mit „Vgl.“; wörtlich ohne „Vgl.“; mehrere Quellen durch Semikolon in Reihenfolge des Literaturverzeichnisses; Autorennamen im Fließtext in Großbuchstaben; Verlagsname nicht in der Fußnote | V S. 10–11; L S. 6 | explizit | **K3 aufgelöst** – Übernahme in Projektregeln wartet auf Bestätigung | Skill `citation-audit` + Agent `citation-auditor` nach Freigabe anpassen |
+| Stellung der Fußnote (nach Satzzeichen bei ganzem Satz; nach Wort/Satzteil; Absatzbezug am ersten Satz kenntlich machen) | V S. 13 | explizit | geklärt | – |
+| Literaturverzeichnis: alle öffentlich zugänglichen, verwendeten und zitierten Quellen; aktuellste Auflage; Verfasser + Jahr **fett**; erster Vorname ausgeschrieben; > 3 Autoren „u. a.“/„et al.“; Titel. Untertitel; Ort: Verlag; engl. Zeitschriften „Vol.“/„No.“ bzw. „Issue“; jede Angabe endet mit Punkt; Leerzeile zwischen Einträgen; alphabetisch, keine Trennung nach Quellenart; gleiche Autoren chronologisch, a/b/c | V S. 13–16 | explizit | geklärt | Export aus `library.bib`/Zotero muss nachformatiert werden |
+| Sekundärzitat: nur Notbehelf, Fernleihe zumutbar; in Fußnote nur Originalquelle, im Literaturverzeichnis „zitiert nach:“ | V S. 12; Folie 72; L S. 7 („zit. nach“) | explizit | geklärt (Schreibweise nach V) | – |
+| Direkte Zitate: Auslassungen/Ergänzungen nach Folie 70 („[.]“, „[…]“, „[ ]“, „[sic!]“) | Folie 70; abweichend L S. 6–7 („(..)“, „(...)“, „Anmerk. durch Verf.“) | explizit | K6 durch Rangregel aufgelöst (Folien jüngste Professorenvorgabe) | – |
+| Internetquellen nur, wenn keine gedruckte Fassung; URL + (Sichtungsdatum); zum Sichtungsdatum abspeichern; Google-Books-Zitate inakzeptabel; Skripte und studentische Arbeiten nicht als Originalquelle zitieren | V S. 15–16 | explizit; Ablage-Pflicht (CD) ist für BA/MA formuliert – Übertragung auf Studienarbeit = Interpretation | teilweise offen | gesicherte Kopien lokal in `03_sources/pdfs/` (nicht in Git) |
+| **Wikipedia ist keine zulässige wissenschaftliche Quelle** | L S. 7; V S. 19 („grundsätzlich vorzuziehen“) | explizit (L) | geklärt | entspricht Quellen-Gate |
+| **KI-gestützte Tools: „Quellen von KI-gestützten Tools (z. B. ChatGPT) sind stets auszuweisen.“** | L S. 7 | explizit | siehe K1 | KI-Protokoll weiterführen |
+| Abkürzungsverzeichnis Pflichtbestandteil; allgemein übliche Abkürzungen aufnehmen; Anglizismen nur sehr zurückhaltend; Begriffe einheitlich und definiert | V S. 4, S. 17–18; abweichend L S. 6 (Duden-Abkürzungen nicht nötig) | explizit | K7 durch Rangregel aufgelöst (V) | Begriffe wie „Use Case“, „Agentic AI“ definieren bzw. deutsch fassen (Entscheidung des Studenten) |
+| Absätze: mehrere Sätze, max. ½ Seite; eigene Paraphrasen statt leichter Umformulierung; Text mit ≥ 3 Tagen Abstand gegenlesen | V S. 18 | explizit | geklärt | – |
+| Literaturbeschaffung: themenspezifische Literatur statt Standardwerken; Artikel wissenschaftlicher Zeitschriften für Aktualität/Praxisbezug; aktuelle Dissertationen; Datenbanken WISO, EBSCO, Springer, NWB, ECONBIZ, beck-online; Elektronische Zeitschriftenbibliothek | V S. 18–19 | explizit (Empfehlung) | geklärt | in `02_search/search_protocol.md` übernommen |
+| **„Auswahl wissenschaftlicher Zeitschriften im Bereich Controlling/Finanzen“** u. a. Controller Magazin, Controlling & Management Review, Controlling (ZfeU), CFO aktuell, CFO Magazine, zfbf, BFuP, Corporate Finance, Der Betrieb, Betriebs-Berater | V S. 25 (Anhang 4) | explizit | betrifft **K2** | Entscheidung des Studenten nötig |
+| Formular-Kriterien „maßgeblich für die Leistungsbewertung“; Formular B: 1 Problemstellung und Gliederung · 2 Inhalte (Begriffe, roter Faden, Themenbezug, Abb./Tab./Anlagen) · 3 Eigene Erkenntnisse/Selbständigkeit · 4 Literatur (Umfang, Relevanz, Aktualität) · 5 Formalia · 6 Weitere Bemerkungen; **keine Gewichtung** | B; V S. 3, S. 21 | explizit | geklärt | `04_quality/quality_rubric.md` ergänzt |
+| Kopf des Formulars B („Titel, Verfasser(in), Typ der Arbeit“) ist „vom Verfasser (Studierenden) zu befüllen“; Beifügung bei Abgabe ist in V S. II nur für BA/MA gelistet | B; V S. II | explizit; Geltung für Studienarbeit offen | offen | Frage für Präsenztermin |
+| Plagiatsprüfung mit **PlagAware** (Fakultätslizenz), Prüfbericht speichern | L S. 7; Folie 59 | explizit | geklärt | Plagiatsreport als separates PDF hochladen |
+| Eigene kritische Stellungnahme/Lösungsvorschläge erwünscht und kenntlich zu machen | L S. 1; Folie 87; B Ziff. 3 | explizit | geklärt | – |
+| GWP: Herkunft verwendeter Daten, Materialien und **Software** kenntlich machen, Originalquellen zitieren | G § 7 Abs. 1 (S. 4) | explizit; Anwendung auf KI-Werkzeuge = Interpretation | geklärt als Transparenzgebot | stützt KI-Protokoll |
+| GWP: Erfinden/Verfälschen von Daten, **Quellen, Belegen**, Texten und Plagiat = wissenschaftliches Fehlverhalten | G § 11 Abs. 1 (S. 8–9) | explizit | geklärt | erfundene/halluzinierte Belege sind kein Formfehler, sondern Fehlverhalten |
+| Fehlverhalten in Studienprüfungsleistungen untersuchen ausschließlich die Prüfungskommissionen der Fakultäten | G § 13 Abs. 2 (S. 10) | explizit | geklärt | – |
+| Abgabe Studienarbeit: zwei PDFs (Arbeit + Plagiatsreport) über Moodle + Hard Copy mit einer Heftklammer | Folie 59; abweichend L S. 2 (BA gebunden, zwei Exemplare) | explizit | K9 durch Rangregel aufgelöst (Folie 59) | – |
+| Allgemeine Prüfungsordnung, Studien- und Prüfungsordnung, Modulbeschreibung | L S. 1, S. 8 | Verweis | nicht vorliegend | optional nachreichen (Modulbeschreibung des Seminars) |
+
 ## Konflikte / Klärungsbedarf (nicht eigenmächtig auflösen)
 
-- **K1 – KI-Offenlegung in der schriftlichen Arbeit:** Folie 56 verlangt im Kolloquium die Angabe der KI-Tools für **Studienarbeit und Präsentation**. Ob und wie die Studienarbeit selbst eine KI-Erklärung enthalten muss, ist offen (Fakultätsleitfaden/Professorenvorgaben fehlen).
-- **K2 – Quellen-Gate vs. Dozentenpraxis:** Das projektinterne Quellen-Gate lässt nur peer-reviewte bzw. wissenschaftliche Publikationen als Forschungsevidenz zu. Der Dozent nennt als einführende Literatur u. a. ein Arbeitspapier und einen Praxisbeitrag (Controller Magazin) und verlangt im Exposé „Bücher, Fachzeitschriften, …“. Das strengere Gate verstößt gegen keine Vorgabe, kann aber die Literaturbasis zu agentischer KI im CFO-Bereich stark verkleinern. Ob Praxisliteratur als *ergänzende, gekennzeichnete* Kategorie zugelassen wird, entscheidet der Student (ggf. nach Klärung in der Veranstaltung). Bis dahin gilt das strenge Gate unverändert.
-- **K3 – Zitierstil:** Chicago vs. Harvard und Kennzeichnung des Umfangs indirekter Zitate erst nach Professorenvorgaben.
-- **K4 – Rückfragen nur in Veranstaltungen (S. 7):** offene Fragen sammeln und in den vorgesehenen Terminen klären; keine Klärung per E-Mail vorbereiten.
+- **K1 – KI-Offenlegung in der schriftlichen Arbeit – TEILWEISE GEKLÄRT:** L S. 7: „Quellen von KI-gestützten Tools (z. B. ChatGPT) sind stets auszuweisen.“ Folie 65/77: KI ist keine Quelle, KI-Inhalte nur mit zutreffendem Originalnachweis. Folie 56: KI-Tools für Studienarbeit und Präsentation im Kolloquium angeben. G § 7: Herkunft verwendeter Software kenntlich machen. V (2017) enthält keine KI-Regel. **Auslegung nach Rangregel:** KI-Ausgaben werden nie als Beleg zitiert; jede Fachaussage stützt sich auf die Originalquelle; der KI-Einsatz wird transparent gemacht. **Offen:** ob die Studienarbeit selbst eine KI-Erklärung oder ein Hilfsmittelverzeichnis enthalten muss und welche KI-Nutzungen zulässig sind → Präsenztermin.
+- **K2 – Quellen-Gate vs. Professorenvorgaben – ENTSCHEIDUNG DES STUDENTEN NÖTIG:** V Anhang 4 (S. 25) führt Praxis-Fachzeitschriften (z. B. Controller Magazin, CFO aktuell, Controlling & Management Review) ausdrücklich als „wissenschaftliche Zeitschriften“; V S. 19 empfiehlt Zeitschriftenartikel für Aktualität und Praxisbezug; das Beispiel-Literaturverzeichnis (V S. 26–29) enthält auch Unternehmens- und Beratungsveröffentlichungen. Formular B bewertet Literatur nach Umfang, Relevanz und **Aktualität**. Das projektinterne Gate ist strenger; das verletzt keine Vorgabe, kann bei einem jungen Thema aber Umfang und Aktualität der Literaturbasis schwächen. Bis zur Entscheidung gilt das strenge Gate unverändert.
+- **K3 – Zitierstil – AUFGELÖST durch V S. 10–16:** Fußnoten mit Kurzbeleg + Literaturverzeichnis nach V. Übernahme in `CLAUDE.md`, Skills und Agenten wartet auf Bestätigung des Studenten.
+- **K4 – Rückfragen nur in Veranstaltungen (Folie 7):** unverändert; V (BA/MA-Kontext) nennt E-Mail für Terminvereinbarungen, für das Seminar gilt Folie 7.
+- **K5–K9 (durch Rangregel aufgelöst, nur dokumentiert):** K5 Paginierung nach dem Textteil (L römisch vs. V arabisch → V); K6 Zitat-Auslassungen (L vs. Folie 70 → Folie 70); K7 Abkürzungsverzeichnis (L vs. V → V); K8 Schriftart (L frei vs. V Times New Roman → V); K9 Abgabeform (L gebunden vs. Folie 59 Heftklammer → Folie 59).
 
 ## Offene Pflichtunterlagen / offene Entscheidungen
-- [ ] HaW Landshut: „Richtlinien für gute wissenschaftliche Praxis“ (Folie 67).
-- [ ] Fakultät BW: allgemeiner Leitfaden zur Bachelorarbeit einschließlich Plagiatsreport (Folie 59, 67).
-- [ ] Aus Moodle „PROF. DR. DIESES: Informationen und Angebote für STUDIERENDE“ → „Bachelor's and Master's Thesis“: **Vorgaben für wissenschaftliche Arbeiten** und **Bewertungskriterien** der Studienarbeit.
-- [ ] Explizite Regeln zur **erlaubten KI-Unterstützung/Offenlegung in der schriftlichen Arbeit**; Folien schreiben keine pauschale Erlaubnis zum KI-Schreiben fest.
-- [ ] Terminplan (Exposé, Kolloquium, Präsentations-Upload, Abgabe) und eventuelle geänderte Vorgaben.
+- [x] HaW Landshut: Satzung zur Sicherung guter wissenschaftlicher Praxis (G) – gelesen 2026-11-07.
+- [x] Fakultät BW: Leitfaden Bachelorarbeit inkl. Plagiatsprüfung (L) – gelesen 2026-11-07.
+- [x] Prof. Dieses: Vorgaben für wissenschaftliche Arbeiten (V) und Bewertungskriterien (B) – gelesen 2026-11-07. Hinweis: V trägt Stand 10/2017; falls im Moodle-Kursraum eine neuere Fassung liegt, diese nachreichen.
+- [ ] Explizite Regeln zur **zulässigen KI-Unterstützung und Offenlegungsform in der schriftlichen Studienarbeit** (K1).
+- [ ] Terminplan (Exposé, Präsentations-Upload, Kolloquium, Abgabe).
 - [ ] Bestätigung des Studenten, dass **Thema 9** über Moodle angemeldet/zugeteilt wurde.
-- [ ] Zitierstil und Fußnoten-/Textbelegregel aufgrund konkreter Spezialvorgaben festlegen.
+- [ ] Entscheidung K2 (Umgang mit Praxis-Fachzeitschriften) und Bestätigung K3 (Zitierstil nach V).
+- [ ] optional: Modulbeschreibung des Seminars, Allgemeine Prüfungsordnung.
 
 ## Verlässlichkeit
 Dieser Überblick ersetzt **nicht** die Originale und kann bei ergänzenden/abweichenden Richtlinien geändert werden. Nichts als vollständig geklärt markieren, bevor die fehlenden Unterlagen geprüft sind. Für Rechts- oder KI-Nutzungsfragen immer den Originalwortlaut heranziehen.
 
-## Originaldateien (lokal, nicht in Git)
-- `00_admin/hochschulregeln/seminarfolien_WS_2026_27.pdf` (63 PDF-Seiten)
-- `00_admin/hochschulregeln/seminarthemen_WS_2026_27.pdf` (1 PDF-Seite)
+## Originaldateien (lokal, nicht in Git; Prüfsummen in `00_admin/hochschulregeln/originaldateien_sha256.txt`)
+- `seminarfolien_WS_2026_27.pdf` (63 PDF-Seiten), `seminarthemen_WS_2026_27.pdf` (1 Seite)
+- `prof_vorgaben_wiss_arbeiten_2017-10.pdf` (V, 40 Seiten), `prof_bewertung_wiss_arbeiten_2024-01-02.pdf` (B, 1 Seite)
+- `fakultaet_bw_leitfaden_bachelorarbeit_2024-06-25.pdf` (L, 12 Seiten), `haw_satzung_gute_wiss_praxis_2022-11-28.pdf` (G, 16 Seiten)

@@ -12,7 +12,9 @@ Kein Zugang wird hier als gegeben behauptet. Lizenzierte Datenbanken kann nur de
 
 | Kandidat | Zweck | Zugang geprüft? |
 |---|---|---|
-| Betriebswirtschaftliche Literaturdatenbank(en) der Hochschulbibliothek (z. B. EBSCO Business Source, WISO) | Accounting/Controlling/Treasury-Journals, deutschsprachige Literatur | offen |
+| **Vom Professor genannt (V S. 18):** WISO, EBSCO, Springer, NWB, ECONBIZ, beck-online; Elektronische Zeitschriftenbibliothek (EZB) | Controlling/Finanzen, deutschsprachige Fach- und Praxisliteratur | über Hochschulbibliothek prüfen (Login mit Hochschulaccount) |
+| EconBiz (Suchportal der ZBW) | wirtschaftswissenschaftliche Literatur, frei durchsuchbar | Portal frei erreichbar; Volltextzugang je Titel prüfen |
+| Zeitschriften aus V Anhang 4 (S. 25) | Controlling/Finanzen; viele davon Praxis-Fachzeitschriften | Zulassung als Evidenz hängt von Entscheidung K2 ab |
 | Scopus oder Web of Science (falls lizenziert) | interdisziplinäre Abdeckung, Zitationsverfolgung | offen |
 | AIS eLibrary (Informationssysteme-Konferenzen und -Journals) | agentische KI in Unternehmen, Design-Science-Studien | offen |
 | IEEE Xplore / ACM Digital Library | Agenten-Technik (Tool-Use, Multi-Agenten-Systeme) | offen |
@@ -26,6 +28,7 @@ Kein Zugang wird hier als gegeben behauptet. Lizenzierte Datenbanken kann nur de
 - Abgrenzungsbegriffe nur zum Ausschluss/Vergleich: `robotic process automation`, `chatbot`, `generative AI` (keine Gleichsetzung mit Agenten).
 
 ## 4. Ein-/Ausschlusskriterien – VORSCHLAG
+- **Hinweise des Professors (V S. 18–19):** themenspezifische Literatur statt Standardlehrbücher; Zeitschriftenartikel für Aktualität und Praxisbezug; aktuelle Dissertationen als Fundus; Internetquellen nur, wenn keine Druckfassung existiert; Wikipedia unzulässig (L S. 7).
 - **Inklusion (Quellen-Gate):** peer-reviewte Zeitschriftenartikel und Konferenzbeiträge, wissenschaftliche Fachbücher/Sammelbandbeiträge mit eindeutigem Verlag und Autorenschaft, überprüfbare Dissertationen. Publikationsstatus und Volltextzugang getrennt bewerten.
 - **Exklusion als Forschungsbeleg:** YouTube/Video, Blogs, Anbieterwebsites/Marketing, Beratungs-Whitepaper, Presse, Wikipedia, Social Media, Preprints, unbegutachtete Working Papers, KI-generierte Antworten. Seminarfolien sind **verbindliche Aufgabenquelle**, aber keine Forschungsevidenz.
 - **Ausschlusscodes (ENTWURF):** `E1` kein Bezug zur Finanzfunktion realwirtschaftlicher Unternehmen · `E2` Finanzindustrie/Banken als Untersuchungsgegenstand · `E3` kein Agentenbezug (nur RPA/klassisches ML/Chatbot, ohne agentische Merkmale) · `E4` unzulässiger Publikationstyp · `E5` Metadaten nicht verifizierbar · `E6` Dublette · `E7` Volltext nicht beschaffbar (auch nicht per Fernleihe) · `E8` Sprache außerhalb DE/EN · `E9` außerhalb des freigegebenen Zeitraums.

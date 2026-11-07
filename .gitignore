@@ -20,6 +20,10 @@
 04_quality/reports/*
 !04_quality/reports/.gitkeep
 
+# Schreibleitfäden-PDFs (Herkunft im benchmark_register.csv)
+04_quality/leitfaeden/*
+!04_quality/leitfaeden/README.md
+
 # Eigene Transparenznotizen ggf. personenbezogen; lokal behalten (Vorlage wird versioniert)
 00_admin/ki_nutzungsprotokoll.csv
 00_admin/privat/
