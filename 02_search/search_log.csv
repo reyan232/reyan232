@@ -1,1 +1,1 @@
-search_id,search_date,database,search_string,filters,result_count,export_path,notes
+search_id,search_date,executed_by,database,interface,search_string,filters,result_count,result_count_basis,export_path,notes

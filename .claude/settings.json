@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "deny": [
+      "Edit(./06_student_draft/**)",
+      "Edit(/06_student_draft/**)"
+    ]
+  }
+}

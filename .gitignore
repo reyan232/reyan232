@@ -1,13 +1,39 @@
-# Persönliche/lizenzierte/privilegierte Materialien
+# ACHTUNG: Das Repository ist öffentlich. Vertrauliches bleibt lokal.
+
+# Hochschul-/Moodle-Unterlagen (passwortgeschützt, Folie 4) – nur README + Hashes versionieren
 00_admin/hochschulregeln/*
 !00_admin/hochschulregeln/README.md
+!00_admin/hochschulregeln/originaldateien_sha256.txt
+
+# Lizenzierte Volltexte und Datenbank-Rohexporte (können lizenzierte Abstracts enthalten)
 03_sources/pdfs/*
 !03_sources/pdfs/README.md
+02_search/exports/*
+!02_search/exports/README.md
+
+# Studentischer Entwurf sowie Feedback-/QS-Berichte zum Entwurf (unveröffentlichter Text)
 06_student_draft/*
 !06_student_draft/README.md
+07_feedback/*
+!07_feedback/README.md
+!07_feedback/.gitkeep
+04_quality/reports/*
+!04_quality/reports/.gitkeep
+
+# Eigene Transparenznotizen ggf. personenbezogen; lokal behalten (Vorlage wird versioniert)
+00_admin/ki_nutzungsprotokoll.csv
+00_admin/privat/
+
+# Lokale Claude-Code-Einstellungen und Umgebungen
 .claude/settings.local.json
+.env
+.env.*
+.venv/
+venv/
+
+# Python / Betriebssystem
 *.pyc
 __pycache__/
+.pytest_cache/
 .DS_Store
-# Eigene Transparenznotizen ggf. personenbezogen; lokal behalten
-00_admin/ki_nutzungsprotokoll.csv
+Thumbs.db

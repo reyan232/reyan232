@@ -1,1 +1,1 @@
-source_id,title,authors,year,source_type,publication,doi,isbn,urn,publication_url,peer_review_status,metadata_status,access_level,decision,decision_reason,notes
+source_id,title,authors,year,source_type,publication,publisher,volume_issue_pages,doi,isbn,urn,publication_url,peer_review_status,peer_review_evidence,metadata_status,metadata_evidence,access_level,integrity_flags,finance_area,found_via,decision,decision_reason,added_by,added_date,notes
