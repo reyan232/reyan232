@@ -4,7 +4,6 @@ Alle Testdatensätze sind ERFUNDENE Platzhalter (DOI-Präfix 10.5555 = Crossref-
 Testpräfix) und dürfen niemals in die echten Projektdateien übernommen werden.
 """
 import csv
-import shutil
 import tempfile
 import unittest
 from pathlib import Path
@@ -46,10 +45,12 @@ class Base(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.root = Path(self.tmp.name)
-        for name in list(COLUMNS) + ['03_sources/library.bib']:
+        # Leere Vorlagen aus der Spaltendefinition – unabhängig von den echten Projektdaten
+        for name, columns in COLUMNS.items():
             dst = self.root / name
             dst.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(BASE / name, dst)
+            dst.write_text(','.join(columns) + '\n', encoding='utf-8')
+        (self.root / '03_sources/library.bib').write_text('% Testvorlage\n', encoding='utf-8')
 
     def tearDown(self):
         self.tmp.cleanup()
@@ -71,6 +72,11 @@ class Base(unittest.TestCase):
 class TemplateTests(Base):
     def test_empty_templates_are_valid(self):
         self.assertEqual(validate(self.root), [])
+
+    def test_repository_templates_match_column_definition(self):
+        for name, columns in COLUMNS.items():
+            header = (BASE / name).read_text(encoding='utf-8').splitlines()[0].split(',')
+            self.assertEqual(header, columns, name)
 
     def test_repository_data_files_are_valid(self):
         self.assertEqual(check_research_data(BASE).errors, [])

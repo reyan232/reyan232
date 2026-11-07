@@ -31,7 +31,7 @@ Du bist der **Orchestrator / Research Manager** (Hauptkonversation, kein siebter
 | Studentischen Entwurf kritisieren | `scientific-critic` (COACH/EXAMINER) | `citation-auditor` |
 | Qualitätsmaßstäbe/Rubriken | `quality-controller` | `scientific-critic` |
 
-Subagents lesen/recherchieren nur; **du** schreibst ihre Ergebnisse in die Projektdateien. Widersprüche zwischen Agenten nicht glätten, sondern offenlegen. Fehlt ein Tool (z. B. Datenbankzugang), dokumentieren und einfachere lokale Lösung wählen statt Fähigkeiten zu fingieren.
+Subagents lesen/recherchieren nur; **du** schreibst ihre Ergebnisse in die Projektdateien. **Metadatenprüfung:** Subagents erreichen in der Cloud-Umgebung per WebFetch keine Metadatendienste (nur WebSearch) – der Orchestrator prüft DOIs und Titel selbst mit `python3 scripts/crossref_lookup.py` und trägt `metadata_evidence` ein (Crossref belegt Existenz/Bibliografie, nicht Peer Review oder Inhalt). Widersprüche zwischen Agenten nicht glätten, sondern offenlegen. Fehlt ein Tool (z. B. Datenbankzugang), dokumentieren und einfachere lokale Lösung wählen statt Fähigkeiten zu fingieren.
 
 ## Pflichten nach jedem Arbeitsgang
 1. Suchläufe → `02_search/search_log.csv`; Screening → `02_search/screening_log.csv`; Quellen → `03_sources/literature.csv`; Befunde → `03_sources/evidence_matrix.csv` (Vokabular: `00_admin/datenmodell.md`).

@@ -77,6 +77,13 @@ python3 scripts/validate_research_data.py          # Daten + Projektstruktur
 python3 scripts/validate_research_data.py --strict # Hinweise als Fehler
 python3 -m unittest discover -s tests -v
 ```
+
+Metadatenprüfung (Orchestrator, benötigt Netzwerkzugriff auf api.crossref.org):
+```bash
+python3 scripts/crossref_lookup.py doi 10.1108/JAAR-10-2020-0207
+python3 scripts/crossref_lookup.py search "Titel der Arbeit" --year 2021
+```
+Das Skript liefert Bibliografie und bekannte Korrektur-/Rückzugsmitteilungen – keinen Peer-Review-Nachweis und keinen Inhalt.
 Geprüft werden CSV-Spalten und Vokabular, das Aufnahme-Gate für Quellen, Beleg-Fundstellen (keine Seitenangaben ohne Volltext), Noten nur mit Nachweis, BibTeX-Zuordnung, Herkunftskennzeichnung von Notizen, YAML-Frontmatter der Agenten/Skills, nur-lesende Agenten-Tools und der Schreibschutz. **Nicht** geprüft wird die fachliche Richtigkeit. Optional: PyYAML für strenge YAML-Prüfung (sonst einfacher Fallback-Parser).
 
 ## Datenschutz
