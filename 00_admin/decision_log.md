@@ -6,7 +6,7 @@ Freigabepflichtig (vorab, ausdrücklich): Thema/Eingrenzung, Forschungsfrage, Gl
 
 | Datum | Gegenstand | Status | Freigegeben vom Studenten? | Grundlage |
 |---|---|---|---|---|
-| 2026-11-07 | Zuordnung Thema 9 aus Themenliste | ARBEITSANNAHME – Moodle-Vergabe nicht bestätigt | Nein | Themenliste WS 2026/27 S. 1 |
+| 2026-11-07 | Zuordnung Thema 9 aus Themenliste | BESTÄTIGT – Zuteilung über Moodle laut Studenten erfolgt | Ja (Rückfrage im Chat) | Themenliste WS 2026/27 S. 1 |
 | 2026-11-07 | Seminar-PDFs und Quellenregeln berücksichtigen | REGELN TEILWEISE GEPRUEFT, Sonderrichtlinien fehlen | Dokumente bereitgestellt, Anwendung in Projekt übernommen | Seminarfolien S. 10, 14, 54–90 |
 | 2026-11-07 | Starterpaket v3 in Repo-Branch `claude/finance-ai-agents-research-system-llfffr` übernommen (Commit 1 unverändert, Commit 2 Ergänzungen) | UMGESETZT | Auftrag durch Bootstrap-Prompt | Bootstrap-Prompt Abschn. 9 |
 | 2026-11-07 | Phase-0-Abgleich PDFs ↔ Anforderungsmatrix; Ergänzungen/Korrekturen, Konfliktpunkte K1–K4 | UMGESETZT, vom Studenten gegenzuprüfen | Nein (Prüfung, keine Entscheidung) | `00_admin/seminar_requirements.md` |
@@ -17,8 +17,8 @@ Freigabepflichtig (vorab, ausdrücklich): Thema/Eingrenzung, Forschungsfrage, Gl
 | 2026-11-07 | Abgleich 2: Professorenvorgaben 10/2017, Bewertungsformular 2024, Fakultätsleitfaden 04/2024, HAW-Satzung GWP 2022 ausgewertet; Rangfolge dokumentiert; K5–K9 per Rangregel aufgelöst | UMGESETZT, vom Studenten gegenzuprüfen | Nein (Prüfung, keine Entscheidung) | `00_admin/seminar_requirements.md` Abgleich 2 |
 | 2026-11-07 | Compliance-Status bleibt TEILWEISE_GEPRUEFT (KI-Regeln für die schriftliche Arbeit, Termine, Themenzuteilung offen) | UMGESETZT | – | `00_admin/compliance_status.md` |
 | 2026-11-07 | Offizielle Bewertungskriterien in `04_quality/quality_rubric.md` übernommen (ohne Gewichtung) | UMGESETZT (Dokumentation) | – | Bewertungsformular 2024-01-02 |
-| | Zitierstil: Fußnoten-Kurzbeleg + Literaturverzeichnis nach Professorenvorgaben (K3) in `CLAUDE.md`, Skills und Agenten übernehmen | VORGESCHLAGEN – durch Professorenvorgabe festgelegt, Übernahme wartet auf Bestätigung | Nein | V S. 10–16 |
-| | Quellen-Gate vs. Professorenvorgaben (K2): A unverändert streng / B zweistufig mit gekennzeichneten Fachzeitschriften laut V Anhang 4 / C voller Rahmen laut V | OFFEN – Empfehlung des Orchestrators: B; bis zur Entscheidung strenges Gate | Nein | V S. 19, 25–29; B Ziff. 4 |
+| 2026-11-07 | Zitierstil: Fußnoten-Kurzbeleg + Literaturverzeichnis nach Professorenvorgaben (K3) in `CLAUDE.md`, Skills und Agenten übernommen | UMGESETZT | Ja (Rückfrage im Chat) | V S. 10–16 |
+| 2026-11-07 | Quellen-Gate (K2): **Option B – zweistufig** (Stufe 1 Forschungsevidenz; Stufe 2 Praxis-Fachzeitschriften laut V Anhang 4 mit CRAAP-Prüfung, nur ergänzend); umgesetzt in `CLAUDE.md`, Skills, Agenten, Datenmodell, Validator (`AUFGENOMMEN_ERGAENZEND`) und Tests | UMGESETZT | Ja (Rückfrage im Chat) | V S. 19, 25–29; B Ziff. 4 |
 | | Endgültige Forschungsfrage | OFFEN | Nein | |
 | | Eingegrenzter Finance-Teilbereich (Controlling / Accounting / Treasury) | OFFEN | Nein | |
 | | Review-Typ / konkrete Methodik / Ausschlusscodes | OFFEN | Nein | `02_search/search_protocol.md` (Entwurf) |

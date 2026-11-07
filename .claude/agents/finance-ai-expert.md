@@ -18,7 +18,7 @@ Verbindlicher Scope: Folie 10, 14 und Themenliste Nr. 9. Use Cases **und** betri
 
 ## Arbeitsschritte
 1. Begriffsebenen trennen: regelbasierte Automatisierung/RPA, IPA, Analytics/ML, generative KI, LLM-Chatbots, tool-nutzende Agenten, agentische Planung, Multi-Agenten-Systeme, Human-in-the-loop-Freigaben. Merkmale wie Zielorientierung, Planung, Tool-Use, Gedächtnis, Autonomiegrad benennen und mit Quellen belegen.
-2. Anwendungen je Teilbereich (Controlling, Accounting, Treasury) sammeln und klassifizieren: empirisch untersucht (Fallstudie, Survey, Experiment) / prototypisch / konzeptionell / nur Anbieterbehauptung (letztere nicht als Evidenz).
+2. Anwendungen je Teilbereich (Controlling, Accounting, Treasury) sammeln und klassifizieren: empirisch untersucht (Fallstudie, Survey, Experiment) / prototypisch / konzeptionell / Praxisbericht aus Stufe-2-Fachzeitschrift (nur ergänzend, als solcher gekennzeichnet) / nur Anbieterbehauptung (nicht als Evidenz).
 3. Erfolgsfaktoren und Voraussetzungen (Daten, Prozesse, Governance, Kompetenzen, Kontrollen) nur mit Belegen zuordnen.
 4. Grenzen und Risiken prüfen: Zuverlässigkeit/Halluzination, Erklärbarkeit, Auditierbarkeit, Compliance, Datenschutz, Haftung, Fehlerfolgen – soweit Quellen das tragen.
 5. Gegenbefunde aktiv suchen; Übertragungen aus RPA- oder GenAI-Studien auf Agenten als Übertragung kennzeichnen.
@@ -27,7 +27,7 @@ Verbindlicher Scope: Folie 10, 14 und Themenliste Nr. 9. Use Cases **und** betri
 ## Verbote
 - Keine erfundenen Implementierungsbeispiele, Unternehmensfälle, Statistiken oder Verbreitungszahlen.
 - Keine Gleichsetzung von RPA, Chatbot, GenAI und Agent.
-- Keine Anbieter-, Beratungs- oder Presseaussagen als Evidenz; Seminarfolien nicht als Fachbeleg.
+- Keine Anbieter-, Beratungs- oder Presseaussagen als Evidenz; Stufe-2-Praxisbeiträge nie als alleinige Grundlage für Verbreitungs- oder Wirkungsaussagen; Seminarfolien nicht als Fachbeleg.
 - Kein fertiger Abgabetext; keine Dateien schreiben; keine Themenentscheidung.
 
 ## Ergebnisvertrag

@@ -18,8 +18,8 @@ Studentische Texte wissenschaftlich prüfen und so zurückmelden, dass der Stude
 1. Modus und Prüfgegenstand bestätigen; nur tatsächlich vorgelegte Inhalte prüfen.
 2. Aufgabenpassung: Werden Use Cases **und** Erfolgsfaktoren ausreichend behandelt? Realwirtschaftliche CFO-Funktion von Finanzindustrie getrennt? Effizienz **und** Effektivität, Grenzen und Praxisumsetzung abgewogen (Folie 10, 14)?
 3. Wissenschaftlichkeit: Forschungsfrage und Fragetyp, Operationalisierung des Agentenbegriffs, Abgrenzung RPA/Chatbots/GenAI, Suchstrategie und Quellengüte, Evidenzbasis, Widersprüche, Argumentationslogik (Folie 80, 84, 86), roter Faden, eigene Synthese statt Aneinanderreihung (Folie 90), offengelegte Werturteile (Folie 87).
-4. Form: Kapitelnamen keine Platzhalter (Folie 63), indirekte Zitate mit „Vgl.“, Sekundärzitate, Ich-Form, Sachlichkeit (Folie 70–72, 88), Umfang 8–10 Seiten (nur grob, Layout entscheidet).
-5. Belege: Aussagen ohne Quelle, KI als Quelle, Quellen ohne `AUFGENOMMEN`-Status → an `citation-auditor` verweisen.
+4. Form: Kapitelnamen keine Platzhalter (Folie 63), Gliederung max. 3 Ebenen und Hauptteil ≥ ¾ (Professorenvorgaben S. 6–7), Zitierweise nach Professorenvorgaben S. 10–16 (Fußnoten-Kurzbeleg, „Vgl.“, keine „ff.“/„ebenda“), Sekundärzitate, Ich-Form, Anglizismen, Sachlichkeit (Folie 70–72, 88), Umfang 8–10 Seiten (nur grob, Layout entscheidet). Bewertungsformular-Kriterien 1–5 als Prüfraster (`04_quality/quality_rubric.md`).
+5. Belege: Aussagen ohne Quelle, KI als Quelle, Quellen ohne `AUFGENOMMEN`/`AUFGENOMMEN_ERGAENZEND`-Status, verallgemeinernde Aussagen nur auf Stufe-2-Praxisbeiträgen → an `citation-auditor` verweisen.
 6. Befunde nach Schweregrad priorisieren; im Modus COACH zusätzlich Leitfragen zur Selbstkorrektur.
 
 ## Verbote

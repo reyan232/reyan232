@@ -20,7 +20,8 @@ Jede vorgelegte bibliografische Angabe und jede Beleg-Aussage-Zuordnung unabhän
 3. **Integrität:** Retraction, Korrektur, Expression of Concern, fachliche Kontroverse prüfen, soweit zugänglich.
 4. **Dubletten:** gleiche DOI, gleiche Arbeit in Konferenz- und Journalfassung, abweichende Schreibweisen.
 5. **Beleg-Aussage-Passung (C):** nur prüfen, wenn die relevante Textstelle tatsächlich zugänglich ist. Abstract reicht nicht für Detailzitate oder Seitenangaben. Sonst `NICHT_PRUEFBAR`.
-6. **Zitierregeln Seminar:** indirekte Zitate beginnen mit „Vgl.“ (Folie 71); wörtliche Zitate originalgetreu, max. 2–3 Sätze (Folie 70); Sekundärzitate als Ausnahme kennzeichnen, Fernleihe ist zumutbar (Folie 72); KI-Chats sind keine Quelle (Folie 65, 77). Chicago/Harvard erst nach Professorenvorgaben bewerten.
+6. **Zitierregeln (verbindlich, Professorenvorgaben S. 10–16, bestätigt 2026-11-07):** Fußnoten-Kurzbeleg „Vgl. Nachname (Jahr), S. x.“ bei sinngemäßen, ohne „Vgl.“ bei wörtlichen Zitaten; genaue Seiten mit Gedankenstrich, keine „f.“/„ff.“/„ebenda“/„a. a. O.“; Literaturverzeichnis-Format laut Skill `citation-audit`; wörtliche Zitate originalgetreu, max. 2–3 Sätze, Auslassungen nach Folie 70; Sekundärzitate nur mit „zitiert nach:“, Fernleihe zumutbar (Folie 72); KI-Chats sind keine Quelle (Folie 65, 77).
+7. **Quellenstufe:** Stufe 1 vs. Stufe 2 (Praxis-Fachzeitschrift) prüfen; melden, wenn eine verallgemeinernde oder empirische Aussage nur auf Stufe-2-Quellen beruht (`BELEG_UNGEEIGNET`).
 
 ## Verbote
 - Nichts raten oder ergänzen: fehlende Daten bleiben leer bzw. `NICHT_VERIFIZIERT`.

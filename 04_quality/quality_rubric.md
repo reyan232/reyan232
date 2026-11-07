@@ -64,3 +64,17 @@ Gewichtung des Kolloquiums innerhalb der Portfolioprüfung: 1/3 (Folie 4); inter
 
 ## Qualitätsscore (academic-excellence)
 Ein Score ist ausschließlich ein **transparentes Diagnoseinstrument** (je Kriterium: erfüllt / teilweise / nicht erfüllt / nicht beurteilbar, mit Fundstelle). Er ist **kein Notenversprechen** und keine Prognose der Bewertung.
+
+## Ergänzende Prüffragen aus Schreibleitfäden (B002 EconBiz-Lernpfade, B003 ZBW-Booklet)
+
+Nur ergänzend zum offiziellen Formular; bei Widerspruch gelten die Professorenvorgaben (z. B. Fußnoten-Kurzbeleg statt APA, keine Working Papers, keine „f.“/„ff.“).
+
+| Formular-Gruppe | Prüffrage (Diagnose, kein Notenmaßstab) | Herkunft |
+|---|---|---|
+| 1 | Ist die Leitfrage offen (nicht mit Ja/Nein beantwortbar), präzise und im Umfang beantwortbar? Steht sie vor dem Schreiben fest? | B003 S. 19 |
+| 1 / 2 | Trägt jeder Abschnitt zur Beantwortung der Leitfrage bei (keine Exkurse)? | B003 S. 19 |
+| 2 | Werden zentrale Begriffe aus Fachliteratur definiert, Lehrbücher nur für Überblick/Definitionen genutzt? | B003 S. 12 |
+| 4 | Stützt sich die Arbeit überwiegend auf Fachzeitschriftenartikel; wird bei mehreren Fassungen die begutachtete zitiert? | B003 S. 12–13 |
+| 4 | Ist jede Stufe-2-Quelle per CRAAP geprüft (Currency, Relevance, Authority, Audience, Purpose)? | B003 S. 13 |
+| 5 | Sind automatisch erzeugte Literaturangaben (Zotero) auf Richtigkeit und Vollständigkeit geprüft; veränderliche Webquellen gesichert? | B003 S. 24 |
+| 5 | Korrekturgang: Rechtschreibung, verständliche Argumentation, Fußnotennummerierung, Übereinstimmung Inhaltsverzeichnis/Überschriften, alle und nur zitierte Quellen im Literaturverzeichnis, Formatierung | B003 S. 29 |

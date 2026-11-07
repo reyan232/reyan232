@@ -10,7 +10,7 @@ description: Entwickelt und prüft ein nachvollziehbares Suchprotokoll mit Krite
 2. Review-Typ transparent wählen (Vorschlag durch `methodology-advisor`); kein PRISMA-Anspruch ohne entsprechende Umsetzung; „systematisch“ nur bei dokumentierter, reproduzierbarer Datenbanksuche.
 3. Datenbanken, exakte Suchstrings, Datum, Filter, Trefferzahlen mit Zählbasis in `02_search/search_log.csv` führen; Exporte lokal unter `02_search/exports/`.
 4. Vorab definierte Ein- und Ausschlusskriterien (Codes in `02_search/search_protocol.md`, Freigabe nötig); jede Screening-Entscheidung mit Grund in `02_search/screening_log.csv`.
-5. Dubletten dokumentieren; nur verifizierte akademische Literatur aufnehmen (`academic-source-gate`).
+5. Dubletten dokumentieren; nur verifizierte Literatur nach dem zweistufigen Gate aufnehmen (`academic-source-gate`): Stufe 1 trägt die Argumentation, Stufe 2 (Praxis-Fachzeitschriften laut V Anhang 4) ergänzt Praxisbeispiele und Aktualität. Stufe-2-Suchen (z. B. WISO für Controller Magazin, CFO aktuell) separat im Suchlog kennzeichnen.
 6. Evidenz nach Themen (`theme`) und Gegenbefunden (`related_evidence`) extrahieren; Risiken und Limitierungen benennen.
 7. Reproduzierbarkeit testen: Könnte eine dritte Person mit Log + Protokoll dieselben Treffer erhalten? Lücken (z. B. fehlender Datenbankzugang) offen benennen.
 8. `python3 scripts/validate_research_data.py` ausführen.

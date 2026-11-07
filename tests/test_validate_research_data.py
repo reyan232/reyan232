@@ -150,6 +150,72 @@ class LiteratureGateTests(Base):
         self.assertFinding('ohne decision_reason')
 
 
+TIER2_SOURCE = {
+    **VALID_SOURCE, 'source_id': 'Q050', 'title': 'Praxisbeitrag ohne reale Entsprechung',
+    'source_type': 'PRAXISBEITRAG', 'publication': 'Controller Magazin', 'doi': '',
+    'publication_url': 'https://example.org/praxisbeitrag', 'peer_review_status': 'NICHT_BESTAETIGT',
+    'peer_review_evidence': '', 'decision': 'AUFGENOMMEN_ERGAENZEND',
+    'decision_reason': 'Stufe 2; CRAAP: aktuell, Fachautor, Praxisperspektive',
+}
+
+
+class Tier2GateTests(Base):
+    """Entscheidung K2 = B: zweistufiges Quellen-Gate."""
+
+    def setUp(self):
+        super().setUp()
+        self.add(SEARCH, SEARCH_ROW)
+
+    def test_valid_tier2_practice_article_passes(self):
+        self.add(LIT, TIER2_SOURCE)
+        report = check_research_data(self.root)
+        self.assertEqual(report.errors, [])
+        self.assertFalse(any('Anhang 4' in w for w in report.warnings))
+
+    def test_practice_article_cannot_be_tier1(self):
+        self.add(LIT, {**TIER2_SOURCE, 'decision': 'AUFGENOMMEN'})
+        self.assertFinding('AUFGENOMMEN_ERGAENZEND statt AUFGENOMMEN')
+
+    def test_working_paper_cannot_be_tier2(self):
+        self.add(LIT, {**TIER2_SOURCE, 'source_type': 'WORKING_PAPER'})
+        self.assertFinding('weiterhin ausgeschlossen')
+
+    def test_whitepaper_cannot_be_tier2(self):
+        self.add(LIT, {**TIER2_SOURCE, 'source_type': 'GRAUE_LITERATUR'})
+        self.assertFinding('weiterhin ausgeschlossen')
+
+    def test_tier2_requires_reason(self):
+        self.add(LIT, {**TIER2_SOURCE, 'decision_reason': ''})
+        self.assertFinding('CRAAP')
+
+    def test_tier2_requires_verified_metadata(self):
+        self.add(LIT, {**TIER2_SOURCE, 'metadata_status': 'NICHT_VERIFIZIERT'})
+        self.assertFinding('verifizierte Metadaten')
+
+    def test_journal_outside_anhang4_only_warns(self):
+        self.add(LIT, {**TIER2_SOURCE, 'publication': 'Harvard Business Manager'})
+        report = check_research_data(self.root)
+        self.assertEqual(report.errors, [])
+        self.assertTrue(any('Anhang 4' in w for w in report.warnings))
+
+    def test_tier2_evidence_cannot_be_high_reliability(self):
+        self.add(LIT, TIER2_SOURCE)
+        self.add(EVI, {**VALID_EVIDENCE, 'source_id': 'Q050', 'reliability': 'HOCH',
+                       'limitations': 'Praxisperspektive'})
+        self.assertFinding('höchstens MITTEL')
+
+    def test_tier2_evidence_requires_limitations(self):
+        self.add(LIT, TIER2_SOURCE)
+        self.add(EVI, {**VALID_EVIDENCE, 'source_id': 'Q050', 'reliability': 'MITTEL'})
+        self.assertFinding('limitations Pflicht')
+
+    def test_tier2_evidence_valid(self):
+        self.add(LIT, TIER2_SOURCE)
+        self.add(EVI, {**VALID_EVIDENCE, 'source_id': 'Q050', 'reliability': 'MITTEL',
+                       'limitations': 'Praxisperspektive, Einzelfall'})
+        self.assertEqual(self.errors(), [])
+
+
 class EvidenceTests(Base):
     def setUp(self):
         super().setUp()

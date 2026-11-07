@@ -12,7 +12,7 @@ Der Validator (`python3 scripts/validate_research_data.py`) prüft Struktur und 
 |---|---|
 | `source_id` | eindeutige ID, Schema `Q001`, `Q002`, … (wird auch als BibTeX-Key verwendet) |
 | `title`, `authors`, `year` | vollständiger Titel; Autor(en) `Nachname, Vorname; Nachname, Vorname`; Jahr vierstellig |
-| `source_type` | **zulässige Forschungsevidenz:** `ZEITSCHRIFTENARTIKEL`, `KONFERENZBEITRAG`, `FACHBUCH`, `SAMMELBANDBEITRAG`, `DISSERTATION` · **nur zur Ausschluss-Dokumentation:** `PREPRINT`, `WORKING_PAPER`, `PRAXISBEITRAG`, `GRAUE_LITERATUR`, `SONSTIGES` |
+| `source_type` | **Stufe 1 – Forschungsevidenz:** `ZEITSCHRIFTENARTIKEL`, `KONFERENZBEITRAG`, `FACHBUCH`, `SAMMELBANDBEITRAG`, `DISSERTATION` · **Stufe 2 – ergänzend:** `PRAXISBEITRAG` (Praxis-Fachzeitschrift, vorrangig laut Anhang 4 der Professorenvorgaben) · **nur zur Ausschluss-Dokumentation:** `PREPRINT`, `WORKING_PAPER`, `GRAUE_LITERATUR`, `SONSTIGES` |
 | `publication` | Journal / Tagungsband / Buchtitel / Hochschule (bei Dissertation) |
 | `publisher` | Verlag bzw. veranstaltende Organisation |
 | `volume_issue_pages` | z. B. `45(3), 101–120` – nur aus geprüften Metadaten |
@@ -25,19 +25,23 @@ Der Validator (`python3 scripts/validate_research_data.py`) prüft Struktur und 
 | `integrity_flags` | leer = nicht geprüft; `KEINE_BEKANNT`, `ZURUECKGEZOGEN`, `KORRIGIERT`, `KONTROVERS` |
 | `finance_area` | `CONTROLLING`, `ACCOUNTING`, `TREASURY`, `FINANZFUNKTION_UEBERGREIFEND`, `TECHNIK_GRUNDLAGEN`, `NICHT_ZIELBEREICH` (z. B. Banken) |
 | `found_via` | Rückverfolgung: `search_id` aus `search_log.csv` oder `SCHNEEBALL:<source_id>`, `HINWEIS_DOZENT`, `STUDENT`, `SEMINARFOLIE` |
-| `decision` | `KANDIDAT`, `AUFGENOMMEN`, `AUSGESCHLOSSEN`, `ZURUECKGESTELLT` |
-| `decision_reason` | Pflicht bei `AUSGESCHLOSSEN`/`ZURUECKGESTELLT` |
+| `decision` | `KANDIDAT`, `AUFGENOMMEN` (Stufe 1), `AUFGENOMMEN_ERGAENZEND` (Stufe 2, nur `PRAXISBEITRAG`), `AUSGESCHLOSSEN`, `ZURUECKGESTELLT` |
+| `decision_reason` | Pflicht bei `AUSGESCHLOSSEN`/`ZURUECKGESTELLT`/`AUFGENOMMEN_ERGAENZEND` (dort inkl. CRAAP-Prüfung) |
 | `added_by`, `added_date` | wer/wann erfasst (z. B. `source-researcher (KI)`, `Student`) |
 | `notes` | freie Notiz |
 
-**Gate für `AUFGENOMMEN`** (vom Validator erzwungen): zulässiger `source_type`; Titel/Autor/Jahr/Publikation vorhanden; `metadata_status = VERIFIZIERT` mit `metadata_evidence`; bei Zeitschrift/Konferenz `peer_review_status = BESTAETIGT` mit `peer_review_evidence`; mind. eine Kennung (DOI/ISBN/URN/URL); nicht `ZURUECKGEZOGEN`; mindestens `NUR_ABSTRACT`; `found_via` gesetzt.
+**Zweistufiges Quellen-Gate** (Entscheidung des Studenten vom 2026-11-07, Konflikt K2 = Option B).
+
+**Gate für `AUFGENOMMEN` (Stufe 1)** (vom Validator erzwungen): zulässiger `source_type`; Titel/Autor/Jahr/Publikation vorhanden; `metadata_status = VERIFIZIERT` mit `metadata_evidence`; bei Zeitschrift/Konferenz `peer_review_status = BESTAETIGT` mit `peer_review_evidence`; mind. eine Kennung (DOI/ISBN/URN/URL); nicht `ZURUECKGEZOGEN`; mindestens `NUR_ABSTRACT`; `found_via` gesetzt.
+
+**Gate für `AUFGENOMMEN_ERGAENZEND` (Stufe 2)**: nur `source_type = PRAXISBEITRAG`; Titel/Autor (sonst „o. V.“)/Jahr/Publikation; `metadata_status = VERIFIZIERT` mit Nachweis; Kennung; nicht `ZURUECKGEZOGEN`; mindestens `NUR_ABSTRACT`; `found_via`; `decision_reason` mit CRAAP-Prüfung (Currency, Relevance, Authority, Audience, Purpose; Booklet ZBW S. 13). Zeitschrift nicht in Anhang 4 → Hinweis, Einzelfreigabe im `decision_log.md` nötig. In der Evidenzmatrix: `reliability` höchstens `MITTEL`, `limitations` Pflicht. Stufe-2-Quellen stützen Praxisbeispiele, Verbreitung und aktuelle Entwicklungen, **nie allein** verallgemeinernde oder empirische Wirkungsaussagen. Working Papers, Preprints, Whitepaper, Blogs, Wikipedia und KI-Ausgaben bleiben ausgeschlossen.
 
 ## 03_sources/evidence_matrix.csv – Befund ↔ Beleg
 
 | Spalte | Bedeutung / zulässige Werte |
 |---|---|
 | `evidence_id` | eindeutig, Schema `E001` … |
-| `source_id` | muss in `literature.csv` existieren **und** `AUFGENOMMEN` sein |
+| `source_id` | muss in `literature.csv` existieren **und** `AUFGENOMMEN` oder `AUFGENOMMEN_ERGAENZEND` sein |
 | `claim_or_finding` | Befund/Konzept in eigenen Stichworten (keine Abgabeformulierung) |
 | `theme` | `TECHNIK_EINORDNUNG`, `USE_CASE`, `VERBREITUNG`, `NUTZEN_EFFIZIENZ`, `NUTZEN_EFFEKTIVITAET`, `ERFOLGSFAKTOR`, `RISIKO_GRENZE`, `UMSETZUNG_PRAXIS`, `METHODIK`, `SONSTIGES` |
 | `finance_area` | wie oben |

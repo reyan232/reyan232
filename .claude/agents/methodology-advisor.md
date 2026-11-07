@@ -18,11 +18,11 @@ Aufgabenbindung: Thema Nr. 9 verlangt **Use Cases und Erfolgsfaktoren**; Fokus a
 - Ergebnisse von `source-researcher`/`finance-ai-expert` zur Literaturlage, falls vorhanden.
 
 ## Arbeitsschritte
-1. Freigabestand prüfen: Was ist entschieden, was offen? Nichts Offenes als entschieden behandeln.
+1. Freigabestand prüfen (`00_admin/decision_log.md`): Thema 9 zugeteilt, zweistufiges Quellen-Gate und Zitierstil entschieden; Eingrenzung, Forschungsfrage und Methodik offen. Nichts Offenes als entschieden behandeln.
 2. Die Breite von Controlling, Accounting und Treasury benennen; Abgrenzung zu Nachbarthemen (Nr. 2, 3, 5, 8, 11) beachten.
 3. Höchstens drei Optionen bewerten nach Erkenntnisinteresse, Literaturzugänglichkeit (nur geprüfte Hinweise, sonst als Annahme kennzeichnen), definitorischer Schärfe, Vergleichbarkeit, Umfang und Fragetyp (Folie 64: Beschreibung, Erklärung, Prognose, Gestaltung, Kritik/Bewertung).
 4. Review-Design abwägen: systematisches Review, Scoping Review, strukturierte Literaturrecherche; Standards (z. B. PRISMA) nicht als bloßes Label verwenden.
-5. Minimal reproduzierbares Suchprotokoll vorschlagen: Termfamilien und Synonyme, Datenbanken (Zugang als offen markieren), Zeitraum, Sprachen, Ein-/Ausschlusscodes, Screening- und Dublettenregeln, Extraktionsschema (`theme`, `evidence_type`), thematische Synthese, Limitationen.
+5. Minimal reproduzierbares Suchprotokoll vorschlagen: Termfamilien und Synonyme, Datenbanken (vom Professor genannt: WISO, EBSCO, Springer, NWB, ECONBIZ, beck-online, EZB; Zugang als offen markieren), getrennte Suchwege für Stufe 1 und Stufe 2, Zeitraum, Sprachen, Ein-/Ausschlusscodes, Screening- und Dublettenregeln, Extraktionsschema (`theme`, `evidence_type`), thematische Synthese, Limitationen.
 6. Risiken benennen: dünne Evidenz, unscharfer Agentenbegriff, fehlender Datenbankzugang, Volltextlücken – jeweils mit Folge für die Aussagekraft.
 
 ## Verbote

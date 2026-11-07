@@ -70,7 +70,23 @@ ACCESS = set(ACCESS_ORDER)
 INTEGRITY = {'KEINE_BEKANNT', 'ZURUECKGEZOGEN', 'KORRIGIERT', 'KONTROVERS'}
 FINANCE_AREAS = {'CONTROLLING', 'ACCOUNTING', 'TREASURY', 'FINANZFUNKTION_UEBERGREIFEND',
                  'TECHNIK_GRUNDLAGEN', 'NICHT_ZIELBEREICH'}
-DECISIONS = {'KANDIDAT', 'AUFGENOMMEN', 'AUSGESCHLOSSEN', 'ZURUECKGESTELLT'}
+DECISIONS = {'KANDIDAT', 'AUFGENOMMEN', 'AUFGENOMMEN_ERGAENZEND', 'AUSGESCHLOSSEN', 'ZURUECKGESTELLT'}
+INCLUDED = {'AUFGENOMMEN', 'AUFGENOMMEN_ERGAENZEND'}
+# Stufe 2 (Entscheidung K2 = B, 2026-11-07): nur Praxis-Fachzeitschriften, vorrangig
+# aus der „Auswahl wissenschaftlicher Zeitschriften im Bereich Controlling/Finanzen“
+# der Professorenvorgaben (Stand 10/2017, Anhang 4, S. 25). Normalisierte Schlüssel.
+TIER2_TYPES = {'PRAXISBEITRAG'}
+ANHANG4_JOURNALS = [
+    'betriebs berater', 'betriebswirtschaftliche forschung und praxis', 'bfup', 'cfo aktuell',
+    'magazine for chief financial officers', 'cfo magazine', 'controller magazin',
+    'controlling management review', 'zeitschrift für erfolgsorientierte unternehmenssteuerung',
+    'corporate finance', 'der betrieb', 'risk compliance audit', 'risiko manager',
+    'zeitschrift für betriebswirtschaftliche forschung', 'zfbf',
+    'zeitschrift für bilanzierung rechnungswesen und controlling',
+    'zeitschrift für corporate governance', 'zeitschrift für das gesamte kreditwesen',
+    'zeitschrift für internationale rechnungslegung',
+]
+TIER2_MAX_RELIABILITY = {'MITTEL', 'GERING', 'UNKLAR'}
 FOUND_VIA_KEYWORDS = {'HINWEIS_DOZENT', 'STUDENT', 'SEMINARFOLIE'}
 THEMES = {'TECHNIK_EINORDNUNG', 'USE_CASE', 'VERBREITUNG', 'NUTZEN_EFFIZIENZ',
           'NUTZEN_EFFEKTIVITAET', 'ERFOLGSFAKTOR', 'RISIKO_GRENZE', 'UMSETZUNG_PRAXIS',
@@ -263,7 +279,8 @@ def _check_literature(rows: list[dict], search_ids: set[str], rep: Report) -> di
         _check_vocab(rep, w, 'finance_area', _v(r, 'finance_area'), FINANCE_AREAS, multi=True)
         _check_vocab(rep, w, 'decision', decision, DECISIONS)
         if not decision:
-            rep.err(f'{w}: decision fehlt (KANDIDAT, AUFGENOMMEN, AUSGESCHLOSSEN, ZURUECKGESTELLT)')
+            rep.err(f'{w}: decision fehlt (KANDIDAT, AUFGENOMMEN, AUFGENOMMEN_ERGAENZEND, '
+                    'AUSGESCHLOSSEN, ZURUECKGESTELLT)')
 
         year = _v(r, 'year')
         if year and not (year.isdigit() and len(year) == 4 and 1900 <= int(year) <= this_year + 1):
@@ -300,39 +317,73 @@ def _check_literature(rows: list[dict], search_ids: set[str], rep: Report) -> di
 
         if decision == 'AUFGENOMMEN':
             _check_inclusion_gate(r, w, kind, doi, found, rep)
+        elif decision == 'AUFGENOMMEN_ERGAENZEND':
+            _check_tier2_gate(r, w, kind, doi, found, rep)
     return sources
 
 
+def _norm_text(value: str) -> str:
+    return re.sub(r'\s+', ' ', re.sub(r'[^\w]+', ' ', value.lower())).strip()
+
+
+def is_anhang4_journal(publication: str) -> bool:
+    norm = _norm_text(publication)
+    return bool(norm) and any(key in norm for key in ANHANG4_JOURNALS)
+
+
+def _check_common_inclusion(r: dict, w: str, doi: str, found: list[str], rep: Report, label: str) -> None:
+    for field in ('title', 'year', 'publication'):
+        if not _v(r, field):
+            rep.err(f'{w}: {label} ohne {field}')
+    if not _v(r, 'authors'):
+        rep.err(f'{w}: {label} ohne authors (bei fehlender Verfasserangabe „o. V.“ eintragen)')
+    if _v(r, 'metadata_status') != 'VERIFIZIERT':
+        rep.err(f'{w}: {label} ohne verifizierte Metadaten (metadata_status=VERIFIZIERT)')
+    if not _v(r, 'metadata_evidence'):
+        rep.err(f'{w}: {label} ohne metadata_evidence (mind. ein zuverlässiger Metadatennachweis)')
+    if not (doi or _v(r, 'isbn') or _v(r, 'urn') or _v(r, 'publication_url')):
+        rep.err(f'{w}: {label} ohne prüfbare Kennung (DOI/ISBN/URN/URL)')
+    if 'ZURUECKGEZOGEN' in _v(r, 'integrity_flags'):
+        rep.err(f'{w}: zurückgezogene Publikation darf nicht {label} sein')
+    access = _v(r, 'access_level')
+    if access in {'', 'KEIN_ZUGRIFF', 'NUR_METADATA'}:
+        rep.err(f'{w}: {label} ohne inhaltliche Sichtung (mind. NUR_ABSTRACT)')
+    elif access == 'NUR_ABSTRACT':
+        rep.warn(f'{w}: nur Abstract gesichtet – keine Detailaussagen/Seitenangaben ableiten; '
+                 'Volltext (ggf. Fernleihe, Folie 72) beschaffen')
+    if not found:
+        rep.err(f'{w}: {label} ohne found_via (Rückverfolgbarkeit zur Suche)')
+    if not _v(r, 'integrity_flags'):
+        rep.warn(f'{w}: integrity_flags leer – Retraction/Korrektur noch nicht geprüft')
+
+
+def _check_tier2_gate(r: dict, w: str, kind: str, doi: str, found: list[str], rep: Report) -> None:
+    label = 'AUFGENOMMEN_ERGAENZEND'
+    if kind not in TIER2_TYPES:
+        rep.err(f'{w}: {label} nur für Praxis-Fachzeitschriften (source_type=PRAXISBEITRAG); '
+                f'{kind!r} ist '
+                + ('Stufe 1 → AUFGENOMMEN verwenden' if kind in ADMISSIBLE_TYPES
+                   else 'weiterhin ausgeschlossen (Preprint, Working Paper, graue Literatur …)'))
+    _check_common_inclusion(r, w, doi, found, rep, label)
+    if not _v(r, 'decision_reason'):
+        rep.err(f'{w}: {label} ohne decision_reason (Begründung inkl. CRAAP-Prüfung)')
+    if not is_anhang4_journal(_v(r, 'publication')):
+        rep.warn(f'{w}: {_v(r, "publication")!r} steht nicht in Anhang 4 der Professorenvorgaben – '
+                 'Einzelfreigabe des Studenten im decision_log erforderlich')
+
+
 def _check_inclusion_gate(r: dict, w: str, kind: str, doi: str, found: list[str], rep: Report) -> None:
-    if kind not in ADMISSIBLE_TYPES:
+    if kind in TIER2_TYPES:
+        rep.err(f'{w}: Praxisbeitrag ist Stufe 2 → AUFGENOMMEN_ERGAENZEND statt AUFGENOMMEN verwenden')
+    elif kind not in ADMISSIBLE_TYPES:
         rep.err(f'{w}: AUFGENOMMEN mit nicht zulässigem Publikationstyp {kind!r} '
                 '(nur peer-review. Zeitschrift/Konferenz, Fachbuch, Sammelband, Dissertation)')
-    for field in ('title', 'authors', 'year', 'publication'):
-        if not _v(r, field):
-            rep.err(f'{w}: AUFGENOMMEN ohne {field}')
-    if _v(r, 'metadata_status') != 'VERIFIZIERT':
-        rep.err(f'{w}: AUFGENOMMEN ohne verifizierte Metadaten (metadata_status=VERIFIZIERT)')
-    if not _v(r, 'metadata_evidence'):
-        rep.err(f'{w}: AUFGENOMMEN ohne metadata_evidence (mind. ein zuverlässiger Metadatennachweis)')
+    _check_common_inclusion(r, w, doi, found, rep, 'AUFGENOMMEN')
     if kind in PEER_REVIEW_REQUIRED:
         if _v(r, 'peer_review_status') != 'BESTAETIGT':
             rep.err(f'{w}: AUFGENOMMEN ohne Peer-Review-Nachweis (peer_review_status=BESTAETIGT)')
         if not _v(r, 'peer_review_evidence'):
             rep.err(f'{w}: AUFGENOMMEN ohne peer_review_evidence (DOI allein belegt kein Peer Review)')
-    if not (doi or _v(r, 'isbn') or _v(r, 'urn') or _v(r, 'publication_url')):
-        rep.err(f'{w}: AUFGENOMMEN ohne prüfbare Kennung (DOI/ISBN/URN/URL)')
-    if 'ZURUECKGEZOGEN' in _v(r, 'integrity_flags'):
-        rep.err(f'{w}: zurückgezogene Publikation darf nicht AUFGENOMMEN sein')
-    access = _v(r, 'access_level')
-    if access in {'', 'KEIN_ZUGRIFF', 'NUR_METADATA'}:
-        rep.err(f'{w}: AUFGENOMMEN ohne inhaltliche Sichtung (mind. NUR_ABSTRACT)')
-    elif access == 'NUR_ABSTRACT':
-        rep.warn(f'{w}: nur Abstract gesichtet – keine Detailaussagen/Seitenangaben ableiten; '
-                 'Volltext (ggf. Fernleihe, Folie 72) beschaffen')
-    if not found:
-        rep.err(f'{w}: AUFGENOMMEN ohne found_via (Rückverfolgbarkeit zur Suche)')
-    if not _v(r, 'integrity_flags'):
-        rep.warn(f'{w}: integrity_flags leer – Retraction/Korrektur noch nicht geprüft')
 
 
 def _check_evidence(rows: list[dict], sources: dict[str, dict], rep: Report) -> None:
@@ -347,9 +398,15 @@ def _check_evidence(rows: list[dict], sources: dict[str, dict], rep: Report) -> 
         src = sources.get(sid)
         if src is None:
             rep.err(f'{w}: unbekannte source_id {sid!r} (erst in literature.csv erfassen)')
-        elif _v(src, 'decision') != 'AUFGENOMMEN':
+        elif _v(src, 'decision') not in INCLUDED:
             rep.err(f'{w}: Quelle {sid} ist nicht AUFGENOMMEN – nicht verifizierte Quellen '
                     'gehören nicht in die Evidenzmatrix')
+        elif _v(src, 'decision') == 'AUFGENOMMEN_ERGAENZEND':
+            if _v(r, 'reliability') not in TIER2_MAX_RELIABILITY:
+                rep.err(f'{w}: Stufe-2-Quelle {sid} (Praxisbeitrag) – reliability höchstens MITTEL')
+            if not _v(r, 'limitations'):
+                rep.err(f'{w}: Stufe-2-Quelle {sid} – limitations Pflicht (Praxisperspektive, '
+                        'kein alleiniger Beleg für verallgemeinernde/empirische Aussagen)')
         if not _v(r, 'claim_or_finding'):
             rep.err(f'{w}: claim_or_finding fehlt')
         _check_vocab(rep, w, 'theme', _v(r, 'theme'), THEMES)
@@ -401,7 +458,7 @@ def _check_screening(rows: list[dict], search_ids: set[str], sources: dict[str, 
         if _v(r, 'screening_date') and not _valid_date(_v(r, 'screening_date')):
             rep.err(f'{w}: screening_date nicht im Format JJJJ-MM-TT')
         src = sources.get(sid)
-        if src is not None and _v(src, 'decision') == 'AUFGENOMMEN' and 'AUSGESCHLOSSEN' in (ta, ft):
+        if src is not None and _v(src, 'decision') in INCLUDED and 'AUSGESCHLOSSEN' in (ta, ft):
             rep.err(f'{w}: {sid} im Screening ausgeschlossen, in literature.csv aber AUFGENOMMEN')
 
 

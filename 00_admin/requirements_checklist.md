@@ -2,18 +2,18 @@
 
 > Herkunft: gemischt – Starterpaket v3 + Ergänzungen aus Abgleich 1 und 2 (Claude Code, 2026-11-07). Häkchen setzt nur der Student nach eigener Prüfung. Kürzel: V = Professorenvorgaben 10/2017, B = Bewertungsformular 2024, L = Fakultätsleitfaden 04/2024, G = HAW-Satzung GWP.
 
-**Arbeitsannahme**: Thema 9 ist vorgesehen; verbindliche Anmeldung über Moodle vom Studenten bestätigen lassen. Fundstellen: `00_admin/seminar_requirements.md`.
+**Thema 9 zugeteilt** (Bestätigung des Studenten 2026-11-07). Fundstellen: `00_admin/seminar_requirements.md`.
 
 ## Regelgrundlage
 - [ ] HAW-Satzung gute wissenschaftliche Praxis selbst gelesen (G; KI-Abgleich am 2026-11-07 erfolgt)
 - [ ] Leitfaden Bachelorarbeit Fakultät BW selbst gelesen (L; KI-Abgleich erfolgt)
 - [ ] Professorenvorgaben (V) und Bewertungsformular (B) selbst gelesen (KI-Abgleich erfolgt)
 - [x] `/university-policy-check` nach Ablage der Dokumente ausgeführt; Compliance-Status aktualisiert (2026-11-07, Ergebnis TEILWEISE_GEPRUEFT)
-- [ ] Entscheidung K2 (Praxis-Fachzeitschriften) getroffen; Zitierstil nach V bestätigt (K3)
+- [x] Entscheidung K2 (Option B, zweistufiges Quellen-Gate) getroffen; Zitierstil nach V bestätigt (K3) – 2026-11-07
 - [ ] Offene Fragen für Präsenztermin gesammelt (keine E-Mail-Klärung, Folie 7)
 
 ## Vor dem Exposé
-- [ ] Anmeldung/Zuordnung Thema 9 bestätigt
+- [x] Anmeldung/Zuordnung Thema 9 bestätigt (Angabe des Studenten, 2026-11-07)
 - [ ] Forschungsfrage durch Studenten freigegeben, passend zu Use Cases **und** Erfolgsfaktoren
 - [ ] Nicht-Fokus klargestellt: Finanzindustrie/-branche; **Fokus CFO-/Finanzfunktion in realwirtschaftlichen Unternehmen** (Folie 14)
 - [ ] Abgrenzung zu Nachbarthemen (Nr. 2, 3, 5, 8, 11) bedacht – agentenspezifischer Mehrwert erkennbar

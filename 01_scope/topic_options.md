@@ -1,8 +1,8 @@
 # Themenrahmen (noch keine Auswahl / Freigabe)
 
-> Herkunft: gemischt – Starterpaket v3 + Hinweise aus PDF-Abgleich (Claude Code, 2026-11-07). Platzhalter, **keine Entscheidung**.
+> Herkunft: gemischt – Starterpaket v3 + Hinweise aus PDF-Abgleich (Claude Code, 2026-11-07). Platzhalter, **keine Entscheidung zur Eingrenzung**.
 
-**Offizielle Themenliste WS 2026/27 Nr. 9:** „Einsatz von KI-Agenten in der Finanzfunktion: Use Cases und Erfolgsfaktoren“. Thema nach Studierendenangabe relevant; **die verbindliche Themenvergabe über Moodle ist noch unbestätigt**.
+**Offizielle Themenliste WS 2026/27 Nr. 9:** „Einsatz von KI-Agenten in der Finanzfunktion: Use Cases und Erfolgsfaktoren“. **Zuteilung vom Studenten am 2026-11-07 bestätigt.** Eingrenzung (Phase 1) steht noch aus.
 
 - Fokus: Unternehmens-CFO-Funktion in der Realwirtschaft (Controlling, Accounting/Rechnungswesen, Treasury); keine Banken/Finanzindustrie (Folie 14).
 - Leitaufgabe: konkrete KI-Agenten-Use-Cases und betriebliche Erfolgsfaktoren, ergänzt um Technik-Einordnung, Verbreitung, Effizienz-/Effektivitätsnutzen, Grenzen und Umsetzung (Folie 10).
@@ -15,7 +15,7 @@
 - **Nachbarthemen:** Nr. 2 (Cash Management/Treasury), Nr. 3 (RPA im Rechnungswesen), Nr. 5 (Predictive Analytics im Controlling), Nr. 8 (KI im Risikomanagement) und Nr. 11 (Rollen/Kompetenzen) liegen nahe. Thema 9 sollte den **agentenspezifischen** Mehrwert sichtbar machen.
 - **Evidenzlage:** Wissenschaftliche (peer-reviewte) Evidenz zu agentischer KI speziell im CFO-Bereich ist vermutlich noch dünn (Hypothese, durch Recherche zu prüfen). Das beeinflusst, welche Eingrenzung forschbar ist.
 
-## Optionen (Phase 1 – erst nach Bestätigung der Themenvergabe)
+## Optionen (Phase 1 – Themenvergabe bestätigt, Optionen noch nicht erarbeitet)
 _Höchstens drei eng umrissene Optionen mit Chancen, relevanter Literatur, Risiken und Passung zu 8–10 Seiten; Erarbeitung durch `methodology-advisor` + `finance-ai-expert`, Entscheidung durch den Studenten._
 
 | Option | Zuschnitt | Chancen | Literaturlage (geprüft?) | Risiken | Passung 8–10 S. |
