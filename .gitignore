@@ -1,0 +1,13 @@
+# Persönliche/lizenzierte/privilegierte Materialien
+00_admin/hochschulregeln/*
+!00_admin/hochschulregeln/README.md
+03_sources/pdfs/*
+!03_sources/pdfs/README.md
+06_student_draft/*
+!06_student_draft/README.md
+.claude/settings.local.json
+*.pyc
+__pycache__/
+.DS_Store
+# Eigene Transparenznotizen ggf. personenbezogen; lokal behalten
+00_admin/ki_nutzungsprotokoll.csv
