@@ -20,6 +20,7 @@ Freigabepflichtig (vorab, ausdrücklich): Thema/Eingrenzung, Forschungsfrage, Gl
 | 2026-11-07 | Zitierstil: Fußnoten-Kurzbeleg + Literaturverzeichnis nach Professorenvorgaben (K3) in `CLAUDE.md`, Skills und Agenten übernommen | UMGESETZT | Ja (Rückfrage im Chat) | V S. 10–16 |
 | 2026-11-07 | Quellen-Gate (K2): **Option B – zweistufig** (Stufe 1 Forschungsevidenz; Stufe 2 Praxis-Fachzeitschriften laut V Anhang 4 mit CRAAP-Prüfung, nur ergänzend); umgesetzt in `CLAUDE.md`, Skills, Agenten, Datenmodell, Validator (`AUFGENOMMEN_ERGAENZEND`) und Tests | UMGESETZT | Ja (Rückfrage im Chat) | V S. 19, 25–29; B Ziff. 4 |
 | 2026-11-07 | Phase 1 gestartet (Themenfokussierung: Sondierung durch source-researcher und finance-ai-expert, danach Optionen durch methodology-advisor) | IN ARBEIT | Ja („Ja“ im Chat) | CLAUDE.md Phasen |
+| 2026-11-07 | Phase 1: Optionen A (Autonomie-/Delegationsrahmen, Controlling + Rechnungswesen), B (Rechnungswesen), C (Controlling) vorgelegt; Empfehlung A nach eigener WISO/EBSCO-Prüfung | VORGELEGT – Entscheidung des Studenten ausstehend | Nein | `01_scope/topic_options.md` |
 | 2026-11-07 | Umgebung „reyan232 – Seminar-Recherche“ um api.crossref.org, api.openalex.org, doi.org erweitert (DOI-/Metadatenprüfung) | UMGESETZT | Ja (Freigabedialog bestätigt) | Abruf war vom Netzwerk blockiert |
 | | Endgültige Forschungsfrage | OFFEN | Nein | |
 | | Eingegrenzter Finance-Teilbereich (Controlling / Accounting / Treasury) | OFFEN | Nein | |
