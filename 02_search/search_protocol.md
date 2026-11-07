@@ -19,7 +19,7 @@ Kein Zugang wird hier als gegeben behauptet. Lizenzierte Datenbanken kann nur de
 | AIS eLibrary (Informationssysteme-Konferenzen und -Journals) | agentische KI in Unternehmen, Design-Science-Studien | offen |
 | IEEE Xplore / ACM Digital Library | Agenten-Technik (Tool-Use, Multi-Agenten-Systeme) | offen |
 | Verlagsportale (z. B. SpringerLink, ScienceDirect) | Fachbücher, Sammelbände, Journals | offen |
-| Google Scholar, Crossref, OpenAlex, Hochschulkatalog | **nur Finder/Metadaten**, keine Forschungsevidenz | frei |
+| Google Scholar, Crossref, OpenAlex, Hochschulkatalog | **nur Finder/Metadaten**, keine Forschungsevidenz | in der Cloud-Umgebung erreichbar: api.crossref.org, api.openalex.org (Abruflimits), doi.org, www.econbiz.de; Google Scholar und Verlagsseiten nicht |
 
 ## 3. Suchterm-Familien – zur Prüfung, nicht als gelaufene Suchen ausgeben
 - **Technologie:** `agentic AI`, `AI agent*`, `autonomous agent*`, `LLM-based agent*`, `multi-agent system*`, `KI-Agent*`

@@ -19,6 +19,8 @@ Freigabepflichtig (vorab, ausdrücklich): Thema/Eingrenzung, Forschungsfrage, Gl
 | 2026-11-07 | Offizielle Bewertungskriterien in `04_quality/quality_rubric.md` übernommen (ohne Gewichtung) | UMGESETZT (Dokumentation) | – | Bewertungsformular 2024-01-02 |
 | 2026-11-07 | Zitierstil: Fußnoten-Kurzbeleg + Literaturverzeichnis nach Professorenvorgaben (K3) in `CLAUDE.md`, Skills und Agenten übernommen | UMGESETZT | Ja (Rückfrage im Chat) | V S. 10–16 |
 | 2026-11-07 | Quellen-Gate (K2): **Option B – zweistufig** (Stufe 1 Forschungsevidenz; Stufe 2 Praxis-Fachzeitschriften laut V Anhang 4 mit CRAAP-Prüfung, nur ergänzend); umgesetzt in `CLAUDE.md`, Skills, Agenten, Datenmodell, Validator (`AUFGENOMMEN_ERGAENZEND`) und Tests | UMGESETZT | Ja (Rückfrage im Chat) | V S. 19, 25–29; B Ziff. 4 |
+| 2026-11-07 | Phase 1 gestartet (Themenfokussierung: Sondierung durch source-researcher und finance-ai-expert, danach Optionen durch methodology-advisor) | IN ARBEIT | Ja („Ja“ im Chat) | CLAUDE.md Phasen |
+| 2026-11-07 | Umgebung „reyan232 – Seminar-Recherche“ um api.crossref.org, api.openalex.org, doi.org erweitert (DOI-/Metadatenprüfung) | UMGESETZT | Ja (Freigabedialog bestätigt) | Abruf war vom Netzwerk blockiert |
 | | Endgültige Forschungsfrage | OFFEN | Nein | |
 | | Eingegrenzter Finance-Teilbereich (Controlling / Accounting / Treasury) | OFFEN | Nein | |
 | | Review-Typ / konkrete Methodik / Ausschlusscodes | OFFEN | Nein | `02_search/search_protocol.md` (Entwurf) |
