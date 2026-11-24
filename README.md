@@ -7,7 +7,7 @@ Projektlokales Claude-Code-Multi-Agenten-System zur **Unterstützung** (nicht zu
 - Scope: **CFO-Funktion realwirtschaftlicher Unternehmen**, nicht Banken/Finanzindustrie
 - Compliance-Status: **TEILWEISE_GEPRUEFT** (`00_admin/compliance_status.md`)
 
-> Die Hauptkonversation ist der Orchestrator. Sechs echte Subagents recherchieren und prüfen, sieben Skills liefern wiederverwendbare Prüfabläufe. Der Student trifft alle wissenschaftlichen Entscheidungen und formuliert jeden Abgabetext selbst.
+> Die Hauptkonversation ist der Orchestrator. Sechs echte Subagents recherchieren und prüfen, sieben Skills liefern wiederverwendbare Prüfabläufe. Der Student trifft alle wissenschaftlichen Entscheidungen. Auf Wunsch arbeitet Claude auch Texte aus (Ablage `08_ausarbeitung/`); der KI-Anteil wird im KI-Protokoll, im Methodikteil und auf der KI-Folie offengelegt.
 
 ## Einstieg
 1. Projektordner öffnen und `claude` starten. **Nach dem ersten Anlegen von `.claude/agents/` Claude Code neu starten**, damit die Subagents erkannt werden (Prüfen mit `/agents`).
@@ -24,7 +24,7 @@ Projektlokales Claude-Code-Multi-Agenten-System zur **Unterstützung** (nicht zu
 | 2 | Forschungsfrage, Kriterien, Such- und Auswahlkonzept als Vorschlag | **Student** gibt frei |
 | 3 | Dokumentierte Recherche, Dublettenprüfung, Screening, Verifikation | Agenten (autonom, protokolliert) |
 | 4 | Kurznotizen, Evidenzmatrix, Gegenbefunde, Lücken | Agenten + Student |
-| 5 | **Student schreibt**; Feedback zu Argumentation, Struktur, Methodik, Zitierfähigkeit | Student |
+| 5 | Schreiben (Student und/oder Claude, mit Offenlegung); Feedback zu Argumentation, Struktur, Methodik, Zitierfähigkeit | Student |
 | 6 | Qualitätssicherung → priorisierte To-do-Liste | Student setzt um |
 
 ## Freigaben
@@ -67,6 +67,7 @@ CLAUDE.md                      Orchestrator-Regeln (dauerhaft geladen)
 05_research_notes/             KI-gestützte Notizen – nicht zur Abgabe
 06_student_draft/              nur studentischer Text (lokal, gesperrt für Claude)
 07_feedback/                   Coach-/Examiner-Berichte (lokal)
+08_ausarbeitung/               Ausarbeitungen von Claude: Folien, Thesenpapier, Studienarbeit (lokal)
 scripts/, tests/               Validator und Tests
 STARTPROMPT.md                 ursprünglicher Bootstrap-Prompt (Starterpaket v3)
 ```

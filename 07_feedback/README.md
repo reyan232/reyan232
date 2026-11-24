@@ -1,6 +1,6 @@
 # Feedbackberichte
 
-`scientific-critic` im Modus `COACH` (konstruktiv, priorisiert) oder `EXAMINER` (strenger fiktiver Gutachter); ergänzend `citation-auditor`. Jeder Bericht priorisiert Schwächen und Selbstkorrekturaufträge; **keine Ersatzabsätze und keine komplette Neufassung** der Arbeit.
+`scientific-critic` im Modus `COACH` (konstruktiv, priorisiert) oder `EXAMINER` (strenger fiktiver Gutachter); ergänzend `citation-auditor`. Jeder Bericht priorisiert Schwächen und Korrekturaufträge. Überarbeitete Fassungen gehören nach `08_ausarbeitung/` (CLAUDE.md Regel 1).
 
 - Dateiname: `JJJJ-MM-TT_<modus>_<gegenstand>.md`, z. B. `2026-12-01_COACH_gliederung.md`.
 - Erste Zeilen: `> Herkunft: KI-generiert (scientific-critic, EXAMINER, <Datum>) – Feedback, kein Abgabetext`.

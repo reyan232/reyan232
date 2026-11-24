@@ -20,6 +20,10 @@
 04_quality/reports/*
 !04_quality/reports/.gitkeep
 
+# Ausarbeitungen von Claude (Folien, Thesenpapier, Studienarbeit) – nicht öffentlich
+08_ausarbeitung/*
+!08_ausarbeitung/README.md
+
 # Schreibleitfäden-PDFs (Herkunft im benchmark_register.csv)
 04_quality/leitfaeden/*
 !04_quality/leitfaeden/README.md

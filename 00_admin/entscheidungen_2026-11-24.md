@@ -1,0 +1,11 @@
+# Entscheidungen des Studenten vom 2026-11-24 (nach der Exposé-Besprechung)
+
+> Herkunft: gemischt – Entscheidungen des Studenten im Chat der Cloud-Sitzung, protokolliert von Claude Code (2026-11-24). Bitte in `00_admin/decision_log.md` übernehmen (dort liegen lokal noch nicht gepushte Änderungen).
+
+| Datum | Gegenstand | Status | Freigegeben vom Studenten? | Grundlage |
+|---|---|---|---|---|
+| 2026-11-24 | **Zuschnitt erweitert:** Finanzfunktion insgesamt; Schwerpunkt Controlling („nicht zu tief“); Rechnungswesen und Treasury einbezogen; Autonomiestufen als Ordnungsrahmen; KI-Governance zentral; technische Erklärung von KI-Agenten. Revidiert den Treasury-Ausschluss vom 13.11. | ENTSCHIEDEN | Ja („a ja“) | Feedback des Professors, `05_research_notes/2026-11-24_expose_besprechung_feedback.md` |
+| 2026-11-24 | **Quellen-Gate erweitert:** Unternehmens- und Beraterquellen als Stufe 2 (`UNTERNEHMENS_BERATERQUELLE`, ergänzend, CRAAP- und Interessenprüfung); Vorsicht bei Anbietern, die Kurse verkaufen | ENTSCHIEDEN, in Validator/Datenmodell umgesetzt | Ja („die sind verwendbar aber aufpassen bei Leuten die Kurse verkaufen“) | Feedback zu Frage 3 |
+| 2026-11-24 | **Forschungsfrage:** ergibt sich aus den Zielen (① Finanzfunktion, ② technische Erklärung, ③ Governance-Fragen); keine gesonderte Einordnung als „bewertend mit gestalterischem Anteil“ | ENTSCHIEDEN (Wortlaut noch anzupassen) | Ja („die Forschungsfrage ergibt sich“) | Feedback „Forschungsfrage weg“ |
+| 2026-11-24 | **Interne Revision und Abgrenzung zu Thema 5:** in der Arbeit kurz anschneiden | ENTSCHIEDEN | Ja („ich kann das schon anschneiden“) | Fragen 1 und 4 des Exposés |
+| 2026-11-24 | **Human-Author-Regel aufgehoben:** KI darf Texte ausarbeiten (Ablage `08_ausarbeitung/`), mit Offenlegungspflichten (CLAUDE.md Regel 1). Der technische Schreibschutz für `06_student_draft/` bleibt bestehen (Entfernen wurde vom Sicherheitsfilter der Umgebung blockiert; der Student kann ihn bei Bedarf selbst in `.claude/settings.json` entfernen) | UMGESETZT | Ja („mach die Human-Author-Regel weg, KI darf verwendet werden“) | Feedback zu Frage 5: „Man muss belegen“, „Methodik – wie KI verwendet“ |

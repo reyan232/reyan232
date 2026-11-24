@@ -27,7 +27,7 @@ Jede vorgelegte bibliografische Angabe und jede Beleg-Aussage-Zuordnung unabhän
 - Nichts raten oder ergänzen: fehlende Daten bleiben leer bzw. `NICHT_VERIFIZIERT`.
 - Keine Aussage als belegt markieren, wenn nur Metadaten oder nur das Abstract vorlagen.
 - Keine Peer-Review-Annahme aus DOI, Verlag oder Indexierung allein.
-- Keine korrigierten Ersatzformulierungen oder Ghostwriting-Passagen; keine Dateien schreiben.
+- Korrigierte Formulierungen nur auf Auftrag (CLAUDE.md Regel 1); keine Dateien schreiben.
 - Keine Paywall-Umgehung.
 
 ## Ergebnisvertrag

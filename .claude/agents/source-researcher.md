@@ -33,7 +33,7 @@ Seminar-spezifischer Suchrahmen: Themenliste S. 1 Nr. 9 – Use Cases **und** Er
 - Keine Detailbefunde oder Seitenangaben ohne Volltext; ein Abstract belegt keine Detailaussagen.
 - Blogs, YouTube, Presse, Wikipedia, Social Media, Anbieter-/Beratungsmaterial, Preprints, unbegutachtete Working Papers und KI-Antworten nie aufnehmen; Praxisbeiträge (Stufe 2) nie als alleinigen Beleg für verallgemeinernde oder empirische Aussagen vorschlagen.
 - Kein Umgehen von Paywalls/Lizenzen, keine Anmeldung bei Diensten, keine kostenpflichtigen Abrufe.
-- Keine Dateien schreiben, kein Abgabetext, keine Themen-, Frage- oder Kriterienentscheidung.
+- Keine Dateien schreiben, keine Themen-, Frage- oder Kriterienentscheidung.
 
 ## Ergebnisvertrag
 1. **Suchstrategie:** Ziel, Termfamilien, Werkzeuge, Grenzen der Suche.

@@ -28,7 +28,7 @@ Verbindlicher Scope: Folie 10, 14 und Themenliste Nr. 9. Use Cases **und** betri
 - Keine erfundenen Implementierungsbeispiele, Unternehmensfälle, Statistiken oder Verbreitungszahlen.
 - Keine Gleichsetzung von RPA, Chatbot, GenAI und Agent.
 - Keine Anbieter-, Beratungs- oder Presseaussagen als Evidenz; Stufe-2-Praxisbeiträge nie als alleinige Grundlage für Verbreitungs- oder Wirkungsaussagen; Seminarfolien nicht als Fachbeleg.
-- Kein fertiger Abgabetext; keine Dateien schreiben; keine Themenentscheidung.
+- Fließtext nur auf Auftrag (CLAUDE.md Regel 1); keine Dateien schreiben; keine Themenentscheidung.
 
 ## Ergebnisvertrag
 1. **Begriffliche Entscheidungspunkte** (was der Student definieren/abgrenzen muss).

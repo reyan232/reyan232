@@ -61,7 +61,7 @@ KI_COLUMNS = [
 # ---------------------------------------------------------------------------
 ADMISSIBLE_TYPES = {'ZEITSCHRIFTENARTIKEL', 'KONFERENZBEITRAG', 'FACHBUCH',
                     'SAMMELBANDBEITRAG', 'DISSERTATION'}
-NON_ADMISSIBLE_TYPES = {'PREPRINT', 'WORKING_PAPER', 'PRAXISBEITRAG', 'GRAUE_LITERATUR', 'SONSTIGES'}
+NON_ADMISSIBLE_TYPES = {'PREPRINT', 'WORKING_PAPER', 'PRAXISBEITRAG', 'UNTERNEHMENS_BERATERQUELLE', 'GRAUE_LITERATUR', 'SONSTIGES'}
 PEER_REVIEW_REQUIRED = {'ZEITSCHRIFTENARTIKEL', 'KONFERENZBEITRAG'}
 PEER_REVIEW = {'BESTAETIGT', 'NICHT_BESTAETIGT', 'NICHT_ZUTREFFEND', 'UNKLAR'}
 METADATA = {'VERIFIZIERT', 'NICHT_VERIFIZIERT', 'WIDERSPRUECHLICH'}
@@ -75,7 +75,7 @@ INCLUDED = {'AUFGENOMMEN', 'AUFGENOMMEN_ERGAENZEND'}
 # Stufe 2 (Entscheidung K2 = B, 2026-11-07): nur Praxis-Fachzeitschriften, vorrangig
 # aus der „Auswahl wissenschaftlicher Zeitschriften im Bereich Controlling/Finanzen“
 # der Professorenvorgaben (Stand 10/2017, Anhang 4, S. 25). Normalisierte Schlüssel.
-TIER2_TYPES = {'PRAXISBEITRAG'}
+TIER2_TYPES = {'PRAXISBEITRAG', 'UNTERNEHMENS_BERATERQUELLE'}
 ANHANG4_JOURNALS = [
     'betriebs berater', 'betriebswirtschaftliche forschung und praxis', 'bfup', 'cfo aktuell',
     'magazine for chief financial officers', 'cfo magazine', 'controller magazin',
@@ -360,21 +360,22 @@ def _check_common_inclusion(r: dict, w: str, doi: str, found: list[str], rep: Re
 def _check_tier2_gate(r: dict, w: str, kind: str, doi: str, found: list[str], rep: Report) -> None:
     label = 'AUFGENOMMEN_ERGAENZEND'
     if kind not in TIER2_TYPES:
-        rep.err(f'{w}: {label} nur für Praxis-Fachzeitschriften (source_type=PRAXISBEITRAG); '
+        rep.err(f'{w}: {label} nur für Praxis-Fachzeitschriften oder Unternehmens-/Beraterquellen '
+                f'(source_type=PRAXISBEITRAG/UNTERNEHMENS_BERATERQUELLE); '
                 f'{kind!r} ist '
                 + ('Stufe 1 → AUFGENOMMEN verwenden' if kind in ADMISSIBLE_TYPES
                    else 'weiterhin ausgeschlossen (Preprint, Working Paper, graue Literatur …)'))
     _check_common_inclusion(r, w, doi, found, rep, label)
     if not _v(r, 'decision_reason'):
-        rep.err(f'{w}: {label} ohne decision_reason (Begründung inkl. CRAAP-Prüfung)')
-    if not is_anhang4_journal(_v(r, 'publication')):
+        rep.err(f'{w}: {label} ohne decision_reason (Begründung inkl. CRAAP- und Interessenprüfung)')
+    if kind == 'PRAXISBEITRAG' and not is_anhang4_journal(_v(r, 'publication')):
         rep.warn(f'{w}: {_v(r, "publication")!r} steht nicht in Anhang 4 der Professorenvorgaben – '
                  'Einzelfreigabe des Studenten im decision_log erforderlich')
 
 
 def _check_inclusion_gate(r: dict, w: str, kind: str, doi: str, found: list[str], rep: Report) -> None:
     if kind in TIER2_TYPES:
-        rep.err(f'{w}: Praxisbeitrag ist Stufe 2 → AUFGENOMMEN_ERGAENZEND statt AUFGENOMMEN verwenden')
+        rep.err(f'{w}: {kind} ist Stufe 2 → AUFGENOMMEN_ERGAENZEND statt AUFGENOMMEN verwenden')
     elif kind not in ADMISSIBLE_TYPES:
         rep.err(f'{w}: AUFGENOMMEN mit nicht zulässigem Publikationstyp {kind!r} '
                 '(nur peer-review. Zeitschrift/Konferenz, Fachbuch, Sammelband, Dissertation)')

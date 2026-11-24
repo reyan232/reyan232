@@ -198,6 +198,18 @@ class Tier2GateTests(Base):
         self.add(LIT, {**TIER2_SOURCE, 'metadata_status': 'NICHT_VERIFIZIERT'})
         self.assertFinding('verifizierte Metadaten')
 
+    def test_company_or_consultant_source_can_be_tier2(self):
+        self.add(LIT, {**TIER2_SOURCE, 'source_type': 'UNTERNEHMENS_BERATERQUELLE',
+                       'publication': 'Fallstudie eines Unternehmens (Test)',
+                       'decision_reason': 'Stufe 2; CRAAP und Interessenprüfung: kein Kursverkauf'})
+        report = check_research_data(self.root)
+        self.assertEqual(report.errors, [])
+        self.assertFalse(any('Anhang 4' in w for w in report.warnings))
+
+    def test_company_source_cannot_be_tier1(self):
+        self.add(LIT, {**TIER2_SOURCE, 'source_type': 'UNTERNEHMENS_BERATERQUELLE', 'decision': 'AUFGENOMMEN'})
+        self.assertFinding('AUFGENOMMEN_ERGAENZEND statt AUFGENOMMEN')
+
     def test_journal_outside_anhang4_only_warns(self):
         self.add(LIT, {**TIER2_SOURCE, 'publication': 'Harvard Business Manager'})
         report = check_research_data(self.root)

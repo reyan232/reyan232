@@ -1,6 +1,6 @@
 ---
 name: seminar-deliverables
-description: Prüft Exposé, Kolloquium-Präsentation, Thesenpapier und Studienarbeit des Studenten gegen die dokumentierten Seminarvorgaben von Prof. Dieses (Folie 54–59, 63–90) und meldet je Baustein ERFÜLLT, OFFEN oder UNKLAR – ohne Abgabetexte zu schreiben. Verwenden, wenn ein Zwischen- oder Endprodukt formal und inhaltlich auf Vollständigkeit geprüft werden soll. Modi EXPOSE, KOLLOQUIUM, THESENPAPIER, STUDIENARBEIT.
+description: Prüft Exposé, Kolloquium-Präsentation, Thesenpapier und Studienarbeit des Studenten gegen die dokumentierten Seminarvorgaben von Prof. Dieses (Folie 54–59, 63–90) und meldet je Baustein ERFÜLLT, OFFEN oder UNKLAR – Ausarbeitungen auf Wunsch nach CLAUDE.md Regel 1 in 08_ausarbeitung/. Verwenden, wenn ein Zwischen- oder Endprodukt formal und inhaltlich auf Vollständigkeit geprüft werden soll. Modi EXPOSE, KOLLOQUIUM, THESENPAPIER, STUDIENARBEIT.
 ---
 
 # Seminar Deliverables
@@ -15,7 +15,7 @@ Lies `00_admin/seminar_requirements.md`, `00_admin/compliance_status.md` und `00
 - `STUDIENARBEIT` (Folie 59, 63–90; V; L): **8–10 Seiten laufender Text inkl. Abbildungen und Tabellen**; Bestandteile Titelblatt – Inhaltsverzeichnis – ggf. Abb./Tab.-Verzeichnis – Abkürzungsverzeichnis – Text – ggf. Anhang – Literaturverzeichnis (kein Abstract, keine eidesstattliche Erklärung, V S. 4); Paginierung römisch/arabisch (V S. 5); Times New Roman 12 pt, 1,5-zeilig, Fußnoten 10 pt, Ränder 2,0/1,5/3,0/1,5 cm (V S. 5, L S. 4); Gliederung max. 3 Ebenen, Hauptteil ≥ ¾ (V S. 6–7); Einleitung mit Forschungsfrage, Methodik und Vorgehensweise; Zitierweise nach V S. 10–16 (Skill `citation-audit`); Originalquellen; keine Ich-Form; kritische Synthese; Bewertungsformular-Kriterien 1–5 (`04_quality/quality_rubric.md`); PlagAware-Bericht (L S. 7); zwei PDF-Uploads (Arbeit + Plagiatsreport) und eine ungebundene Hard Copy mit einer Heftklammer.
 
 ## Ausgabe
-`Phase | Anforderung + Foliennummer | Status ERFÜLLT/OFFEN/UNKLAR | Prüfgrundlage (Datei/Stelle) | nächster Schritt des Studenten`. Kein fertiges Exposé, keine ausformulierte Präsentation, kein einreichungsfertiges Thesenpapier, keine Folientexte.
+`Phase | Anforderung + Foliennummer | Status ERFÜLLT/OFFEN/UNKLAR | Prüfgrundlage (Datei/Stelle) | nächster Schritt des Studenten`. Ausarbeitungen von Exposé, Folien, Thesenpapier oder Studienarbeit auf Wunsch nach CLAUDE.md Regel 1 (Ablage in `08_ausarbeitung/`, KI-Anteil im KI-Protokoll, KI-Nutzung im Methodikteil und auf der KI-Folie).
 
 ## Beispiel
 `/seminar-deliverables EXPOSE Prüfe meine eigene Exposé-Gliederung gegen die Seminarvorgaben.`

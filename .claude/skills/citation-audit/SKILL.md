@@ -27,7 +27,7 @@ description: Gleicht Bibliografie, Kennungen (DOI, ISBN, URN, Hochschulnachweis)
 - Zotero-/BibTeX-Exporte erzeugen dieses Format nicht automatisch – Abweichungen als Formfehler melden.
 
 ## Grenzen
-Keine Korrekturen am studentischen Text vornehmen und keine Ersatzformulierungen liefern – nur Befund, Fundstelle und Aufgabe für den Studenten.
+Korrekturen in Claude-Ausarbeitungen (`08_ausarbeitung/`) direkt; für Texte des Studenten in `06_student_draft/` Befund, Fundstelle und Korrekturvorschlag bzw. eine korrigierte Kopie in `08_ausarbeitung/` (CLAUDE.md Regel 1).
 
 ## Ausgabe
 `Prüfobjekt | Bibliografie | Typ/Peer Review | Beleg-Aussage | Fundstelle/Nachweis | Fehlerklasse | Nutzeraktion` + Liste offener Lücken.
