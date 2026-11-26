@@ -107,3 +107,20 @@
 - **Nur über die Bibliothek oder Fernleihe (6):** Parasuraman u. a., Baird/Maruping, Chou/Du/Lai, Polak u. a., Xiong/Han/Zhang, Holzwarth u. a.
 - **Konferenzseite ohne DOI (1):** Yao u. a. (ReAct).
 - **Websites, Stufe 2, und Rechtsnorm (4 + 1):** Gartner, KPMG, Deloitte, COSO-Leitfaden (Emett u. a. 2026); KI-VO auf EUR-Lex.
+
+---
+
+## Nachtrag 2026-11-26: Änderungen in Entwurf v2
+- **Neu, Kapitel 1 (Einstieg, Stufe 2):**
+  - OpenAI (2026): OpenAI – Hugging Face Incident Technical Report. [PDF](https://cdn.openai.com/pdf/67869394-cb91-4c12-888c-5cbd85c7814c/OpenAI-Hugging-Face%20Incident-Technical-Report.pdf). Volltext gelesen, genutzt S. 4, 9, 19.
+  - Anthropic, PBC (2026): Prospectus (Form 424(b)(4)). [SEC EDGAR](https://www.sec.gov/Archives/edgar/data/2130357/000162828026074944/anthropicpbc-424b4.htm). Nicht gelesen, weil die SEC automatische Abrufe blockiert; bitte im Browser prüfen.
+- **Neu, 2.2 und 5.2:** KI-VO Art. 14 Abs. 3 und 4 sowie Anhang III Nr. 5 Buchst. b. [EUR-Lex](https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32024R1689). Im Original gelesen.
+- **Gestrichen:**
+  - Kampiotis u. a. (2026): laut Abstract kein Agentenbezug.
+  - Chou/Du/Lai (2007): nur der Titel war prüfbar.
+  - Holzwarth u. a. (2025): Inhalt nicht prüfbar.
+  - COSO-Leitfaden (Emett u. a. 2026): Inhalt nicht prüfbar.
+- **Neu zugeordnet:**
+  - Korhonen u. a. (2020) belegt jetzt die Grenzen der Automatisierbarkeit (3.1).
+  - Mahlendorf (2025) belegt ausdrücklich Zielvorgaben für KI-Agenten (5.2).
+  - Li/Reinhard/Leimeister (2026) und Haugk/Leyh (2026) belegen zusätzlich, was beim Agenten vorgegeben wird und dass er auch unstrukturierte Daten verarbeitet (2.1).
